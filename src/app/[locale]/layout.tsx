@@ -16,7 +16,7 @@ import SignUpComplete from "@/components/root/SignUpComplete";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Webtoon Like",
+  title: "Kipstock",
   description: "The Place where your IP becomes stock.",
   openGraph: {
     images: ["/img/og.png"],
