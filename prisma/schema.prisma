@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -10,7 +11,6 @@ datasource db {
 // TODO join 삭제 시 로직 재조정
 // TODO Index 추가
 // TODO zero-length 차단
-
 model Admin {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at")
