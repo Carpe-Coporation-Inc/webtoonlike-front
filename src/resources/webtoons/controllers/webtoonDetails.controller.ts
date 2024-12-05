@@ -25,7 +25,7 @@ export const getWebtoonDetailsExtended = action
   .bindArgsSchemas([
     z.number() // webtoonId
   ])
-  .outputSchema(WebtoonDetailsExtendedSchema)
+  // .outputSchema(WebtoonDetailsExtendedSchema)
   .action(async ({
     bindArgsParsedInputs: [webtoonId]
   }) => {
