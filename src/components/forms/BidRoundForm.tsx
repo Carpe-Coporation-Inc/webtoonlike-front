@@ -87,7 +87,7 @@ export default function BidRoundForm({ webtoonId, prev }: {
         {/* 기본 정보 */}
         <Heading2>
           {t("generalInformation")}
-          <IconExclamation className="ml-1"/>
+          <IconExclamation className="ml-1 inline-block"/>
         </Heading2>
 
         <div className="space-y-6">
@@ -109,7 +109,7 @@ export default function BidRoundForm({ webtoonId, prev }: {
         {/* 계약 상세 */}
         <Heading2>
           {t("form.currentStatusOfCopyrightAgreement")}
-          <IconExclamation className="ml-1"/>
+          <IconExclamation className="ml-1 inline-block"/>
         </Heading2>
 
         <ContractRangeForm form={form as UseFormReturn<FormT>} formType="bidRound"/>
@@ -288,7 +288,7 @@ function OriginalityField({ form }: {
     name={"isOriginal"}
     render={({ field }) => (
       <FormItem>
-        <FormLabel>{t("seriesType")}</FormLabel>
+        <FormLabel>{t("serviceOnOtherPlatforms")}</FormLabel>
         <BooleanFormControl
           field={field}
           items={[

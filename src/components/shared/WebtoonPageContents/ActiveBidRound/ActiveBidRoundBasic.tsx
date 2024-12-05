@@ -13,13 +13,11 @@ export default function ActiveBidRoundBasic({ bidRound }: {
 
   const t = useTranslations("bidRoundDetails");
 
-  return <Col>
-    <Row>
-      <h2 className="text-lg font-bold">
-        {t("generalInformation")}
-      </h2>
-      <IconExclamation className="fill-white ml-3"/>
-    </Row>
+  return <div>
+    <h2 className="text-lg font-bold">
+      {t("generalInformation")}
+      <IconExclamation className="ml-1 inline-block"/>
+    </h2>
     <Col className="p-5">
       <div className="flex gap-10">
         <IsNewIndicator isNew={bidRound.isNew}/>
@@ -27,7 +25,7 @@ export default function ActiveBidRoundBasic({ bidRound }: {
         <ProgressIndicator bidRound={bidRound}/>
       </div>
     </Col>
-  </Col>;
+  </div>;
 }
 
 function IsNewIndicator({ isNew }: {
