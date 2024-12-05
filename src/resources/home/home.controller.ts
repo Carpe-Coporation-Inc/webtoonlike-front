@@ -3,12 +3,13 @@
 import { action } from "@/handlers/safeAction";
 import homeService from "@/resources/home/home.service";
 import z from "zod";
-import { HomeItemsSchema, HomeWebtoonItemSchema } from "@/resources/home/home.dto";
+import { HomeItemsT, HomeWebtoonItem } from "@/resources/home/home.dto";
 
 export const homeItems = action
   .metadata({ actionName: "homeItems" })
-  .outputSchema(HomeItemsSchema)
-  .action(homeService.getHomeItems);
+  .action(async (): Promise<HomeItemsT> => {
+    return homeService.getHomeItems();
+  });
 
 const GenreFilterSchema = z.object({
   genreId: z.number()
@@ -17,7 +18,6 @@ export type GenreFilterT = z.infer<typeof GenreFilterSchema>;
 export const getPerGenreItems = action
   .metadata({ actionName: "getPerGenreItems" })
   .schema(GenreFilterSchema)
-  .outputSchema(z.array(HomeWebtoonItemSchema))
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput }): Promise<HomeWebtoonItem[]> => {
     return homeService.getPerGenreItems(parsedInput);
   });

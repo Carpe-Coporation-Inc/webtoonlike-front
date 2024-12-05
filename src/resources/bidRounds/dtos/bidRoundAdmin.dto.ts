@@ -10,6 +10,7 @@ export const BidRoundAdminSettingsSchema = z.object({
   processEndsAt: z.date().optional(),
   adminNote: z.string().optional(),
 });
+export type BidRoundAdminSettingsT = z.infer<typeof BidRoundAdminSettingsSchema>;
 
 export const StrictBidRoundAdminSettingsSchema = BidRoundAdminSettingsSchema
   .required({

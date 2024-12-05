@@ -1,12 +1,12 @@
 "use server";
 
 import {
-  OfferWithBuyerAndWebtoonSchema, OfferWithActiveProposalSchema,
+  OfferWithActiveProposalT, OfferWithBuyerAndWebtoonT,
 } from "@/resources/offers/dtos/offer.dto";
 import z from "zod";
 import { action } from "@/handlers/safeAction";
 import offerService from "@/resources/offers/services/offer.service";
-import { ListResponseSchema, PaginationSchema } from "@/resources/globalTypes";
+import { ListResponse, PaginationSchema } from "@/resources/globalTypes";
 
 // /admin/offers
 export const adminListOffersByBidRoundId = action
@@ -14,10 +14,9 @@ export const adminListOffersByBidRoundId = action
   .bindArgsSchemas([
     z.number() // bidRoundId
   ])
-  .outputSchema(z.array(OfferWithActiveProposalSchema))
   .action(async ({
     bindArgsParsedInputs: [bidRoundId]
-  }) => {
+  }): Promise<OfferWithActiveProposalT[]> => {
     return offerService.listByBidRoundId(bidRoundId);
   });
 
@@ -26,20 +25,18 @@ export const getOffer = action
   .bindArgsSchemas([
     z.number() // offerId
   ])
-  .outputSchema(OfferWithBuyerAndWebtoonSchema)
   .action(async ({
     bindArgsParsedInputs: [offerId]
-  }) => {
+  }): Promise<OfferWithBuyerAndWebtoonT> => {
     return offerService.getOffer(offerId);
   });
 
 export const listAllOffers = action
   .metadata({ actionName: "listAllOffers" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(OfferWithBuyerAndWebtoonSchema))
   .action(async ({
     parsedInput: { page }
-  }) => {
+  }): Promise<ListResponse<OfferWithBuyerAndWebtoonT>> => {
     return offerService.listMyOffers({
       page,
       limit: 10

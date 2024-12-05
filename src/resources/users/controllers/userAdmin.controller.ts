@@ -3,15 +3,17 @@
 // /admin/users
 import { action } from "@/handlers/safeAction";
 import z from "zod";
-import { ListResponseSchema, PaginationSchema } from "@/resources/globalTypes";
-import { AdminPageAccountSchema, NonAdminUserSearchSchema } from "@/resources/users/dtos/userAdmin.dto";
+import { ListResponse, PaginationSchema } from "@/resources/globalTypes";
+import {
+  AdminPageAccountT,
+  NonAdminUserSearchT
+} from "@/resources/users/dtos/userAdmin.dto";
 import userAdminService from "@/resources/users/services/userAdmin.service";
 
 export const listUsers = action
   .metadata({ actionName: "listUsers" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(AdminPageAccountSchema))
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput }) : Promise<ListResponse<AdminPageAccountT>> => {
     return userAdminService.list(parsedInput);
   });
 
@@ -23,7 +25,6 @@ export type NonAdminUserSearchQueryT = z.infer<typeof NonAdminUserSearchQuerySch
 export const searchNonAdminUsers = action
   .metadata({ actionName: "SearchNonAdminUsers" })
   .schema(NonAdminUserSearchQuerySchema)
-  .outputSchema(z.array(NonAdminUserSearchSchema))
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput }): Promise<NonAdminUserSearchT[]> => {
     return userAdminService.searchNonAdminUsers(parsedInput);
   });

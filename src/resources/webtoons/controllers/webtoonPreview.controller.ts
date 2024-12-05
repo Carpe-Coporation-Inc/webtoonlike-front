@@ -7,11 +7,10 @@ import z from "zod";
 import { action } from "@/handlers/safeAction";
 import { AgeLimit } from "@/resources/webtoons/dtos/webtoon.dto";
 import {
-  MyWebtoonNotOnSaleSchema,
-  MyWebtoonOnSaleSchema,
-  WebtoonPreviewSchema
+  MyWebtoonNotOnSaleSchema, MyWebtoonNotOnSaleT,
+  MyWebtoonOnSaleT, WebtoonPreviewT
 } from "@/resources/webtoons/dtos/webtoonPreview.dto";
-import { ListResponseSchema, PaginationSchema } from "@/resources/globalTypes";
+import { ListResponse, ListResponseSchema, PaginationSchema } from "@/resources/globalTypes";
 import webtoonPreviewService from "@/resources/webtoons/services/webtoonPreview.service";
 
 const WebtoonFilterSchema = PaginationSchema.extend({
@@ -22,8 +21,7 @@ export type WebtoonFilterT = z.infer<typeof WebtoonFilterSchema>;
 export const listWebtoons = action
   .metadata({ actionName: "listWebtoons" })
   .schema(WebtoonFilterSchema)
-  .outputSchema(ListResponseSchema(WebtoonPreviewSchema))
-  .action(async ({ parsedInput: formData }) => {
+  .action(async ({ parsedInput: formData }): Promise<ListResponse<WebtoonPreviewT>> => {
     return webtoonPreviewService.list(formData);
   });
 
@@ -33,11 +31,10 @@ export const listWebtoonsByUserId = action
     z.number()
   ])
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(WebtoonPreviewSchema))
   .action(async ({
     bindArgsParsedInputs: [userId],
     parsedInput: formData
-  }) => {
+  }): Promise<ListResponse<WebtoonPreviewT>> => {
     return webtoonPreviewService.list({
       ...formData,
       userId
@@ -49,8 +46,7 @@ export const listWebtoonsByUserId = action
 export const listLikedWebtoons = action
   .metadata({ actionName: "listLikedWebtoons" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(WebtoonPreviewSchema))
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput }): Promise<ListResponse<WebtoonPreviewT>> => {
     return webtoonPreviewService.listLikedWebtoons(parsedInput);
   });
 
@@ -59,8 +55,7 @@ export const listLikedWebtoons = action
 export const listMyWebtoonsNotOnSale = action
   .metadata({ actionName: "listMyWebtoonsNotOnSale" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(MyWebtoonNotOnSaleSchema))
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput }): Promise<ListResponse<MyWebtoonNotOnSaleT>> => {
     return webtoonPreviewService.listMyWebtoonsNotOnSale(parsedInput);
   });
 
@@ -69,7 +64,6 @@ export const listMyWebtoonsNotOnSale = action
 export const listMyWebtoonsOnSale = action
   .metadata({ actionName: "listMyWebtoonsOnSale" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(MyWebtoonOnSaleSchema))
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput }): Promise<ListResponse<MyWebtoonOnSaleT>> => {
     return webtoonPreviewService.listMyWebtoonsOnSale(parsedInput);
   });

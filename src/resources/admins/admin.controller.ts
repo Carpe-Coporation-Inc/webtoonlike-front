@@ -2,16 +2,13 @@
 
 import { action } from "@/handlers/safeAction";
 import z from "zod";
-import { ListResponse, ListResponseSchema, PaginationSchema } from "@/resources/globalTypes";
-import { AdminEntrySchema, AdminEntryT } from "@/resources/admins/admin.dto";
+import { ListResponse, PaginationSchema } from "@/resources/globalTypes";
+import { AdminEntryT } from "@/resources/admins/admin.dto";
 import adminService from "@/resources/admins/admin.service";
 
 export const listAdmins = action
   .metadata({ actionName: "listAdmins" })
   .schema(PaginationSchema)
-  .outputSchema(
-    ListResponseSchema(AdminEntrySchema)
-  )
   .action(
     async ({ parsedInput }): Promise<ListResponse<AdminEntryT>> => {
       return adminService.list(parsedInput);

@@ -1,8 +1,7 @@
 "use server";
 
 import {
-  BidRoundFormSchema,
-  BidRoundSchema
+  BidRoundFormSchema, BidRoundT
 } from "@/resources/bidRounds/dtos/bidRound.dto";
 import z from "zod";
 import { action } from "@/handlers/safeAction";
@@ -32,8 +31,7 @@ export const getBidRoundByWebtoonId = action
   .bindArgsSchemas([
     z.number() // webtoonId
   ])
-  .outputSchema(BidRoundSchema.optional())
-  .action(async ({ bindArgsParsedInputs: [webtoonId] }) => {
+  .action(async ({ bindArgsParsedInputs: [webtoonId] }): Promise<BidRoundT|undefined> => {
     return bidRoundService.getByWebtoonId(webtoonId);
   });
 

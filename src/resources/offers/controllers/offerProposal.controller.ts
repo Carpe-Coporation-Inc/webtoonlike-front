@@ -1,9 +1,9 @@
 "use server";
 
 import {
-  changeOfferStatusParamsSchema, OfferDetailsSchema, OfferProposalDetailsSchema,
+  changeOfferStatusParamsSchema, OfferDetailsT, OfferProposalDetailsT,
   OfferProposalFormSchema,
-  OfferProposalListSchema
+  OfferProposalListT
 } from "@/resources/offers/dtos/offerProposal.dto";
 import z from "zod";
 import { action } from "@/handlers/safeAction";
@@ -14,13 +14,10 @@ export const listOfferProposals = action
   .bindArgsSchemas([
     z.number() // offerId
   ])
-  .outputSchema(
-    OfferProposalListSchema
-  )
   .action(
     async ({
       bindArgsParsedInputs: [offerId],
-    }) => {
+    }): Promise<OfferProposalListT> => {
       return offerProposalService.list(offerId);
     }
   );
@@ -73,10 +70,9 @@ export const getOfferProposalDetails = action
   .bindArgsSchemas([
     z.number() //offerProposalId
   ])
-  .outputSchema(OfferProposalDetailsSchema)
   .action(async ({
     bindArgsParsedInputs: [offerProposalId]
-  }) => {
+  }): Promise<OfferProposalDetailsT> => {
     return offerProposalService.getOfferProposalDetails(offerProposalId);
   });
 
@@ -85,9 +81,8 @@ export const getOfferDetails = action
   .bindArgsSchemas([
     z.number() //offerProposalId
   ])
-  .outputSchema(OfferDetailsSchema)
   .action(async ({
     bindArgsParsedInputs: [offerProposalId]
-  }) => {
+  }): Promise<OfferDetailsT> => {
     return offerProposalService.getOfferDetails(offerProposalId);
   });

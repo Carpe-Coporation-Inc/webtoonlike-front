@@ -4,7 +4,10 @@
 // /webtoon/[webtoonId]/update
 import { action } from "@/handlers/safeAction";
 import z from "zod";
-import { WebtoonDetailsExtendedSchema, WebtoonDetailsSchema } from "@/resources/webtoons/dtos/webtoonDetails.dto";
+import {
+  WebtoonDetailsExtendedT,
+  WebtoonDetailsT
+} from "@/resources/webtoons/dtos/webtoonDetails.dto";
 import webtoonDetailsService from "@/resources/webtoons/services/webtoonDetails.service";
 
 export const getWebtoon = action
@@ -12,10 +15,9 @@ export const getWebtoon = action
   .bindArgsSchemas([
     z.number() // webtoonId
   ])
-  .outputSchema(WebtoonDetailsSchema)
   .action(async ({
     bindArgsParsedInputs: [webtoonId]
-  }) => {
+  }): Promise<WebtoonDetailsT> => {
     return webtoonDetailsService.getDetails(webtoonId);
   });
 
@@ -25,9 +27,8 @@ export const getWebtoonDetailsExtended = action
   .bindArgsSchemas([
     z.number() // webtoonId
   ])
-  // .outputSchema(WebtoonDetailsExtendedSchema)
   .action(async ({
     bindArgsParsedInputs: [webtoonId]
-  }) => {
+  }): Promise<WebtoonDetailsExtendedT> => {
     return webtoonDetailsService.getDetailsExtended(webtoonId);
   });

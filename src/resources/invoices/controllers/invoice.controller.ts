@@ -1,17 +1,19 @@
 "use server";
 
 import { action } from "@/handlers/safeAction";
-import { ListResponseSchema, PaginationSchema } from "@/resources/globalTypes";
+import { ListResponse, PaginationSchema } from "@/resources/globalTypes";
 import invoiceService from "@/resources/invoices/services/invoice.service";
-import { InvoicedOfferSchema, UninvoicedOfferSchema } from "@/resources/invoices/dtos/invoice.dto";
+import {
+  InvoicedOfferT,
+  UninvoicedOfferT
+} from "@/resources/invoices/dtos/invoice.dto";
 
 export const adminListUninvoicedOffers = action
   .metadata({ actionName: "adminListUninvoicedOffers" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(UninvoicedOfferSchema))
   .action(async ({
     parsedInput: filters
-  }) => {
+  }): Promise<ListResponse<UninvoicedOfferT>> => {
     return invoiceService.list({
       ...filters,
       isAdmin: true,
@@ -22,10 +24,9 @@ export const adminListUninvoicedOffers = action
 export const adminListInvoicedOffers = action
   .metadata({ actionName: "adminListInvoicedOffers" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(InvoicedOfferSchema))
   .action(async ({
     parsedInput: filters
-  }) => {
+  }): Promise<ListResponse<InvoicedOfferT>> => {
     return invoiceService.list({
       ...filters,
       isAdmin: true,
@@ -36,10 +37,9 @@ export const adminListInvoicedOffers = action
 export const listUninvoicedOffers = action
   .metadata({ actionName: "listUninvoicedOffers" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(UninvoicedOfferSchema))
   .action(async ({
     parsedInput: filters
-  }) => {
+  }): Promise<ListResponse<UninvoicedOfferT>> => {
     return invoiceService.list({
       ...filters,
       isAdmin: false,
@@ -50,10 +50,9 @@ export const listUninvoicedOffers = action
 export const listInvoicedOffers = action
   .metadata({ actionName: "listInvoicedOffers" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(InvoicedOfferSchema))
   .action(async ({
     parsedInput: filters
-  }) => {
+  }): Promise<ListResponse<InvoicedOfferT>> => {
     return invoiceService.list({
       ...filters,
       isAdmin: false,

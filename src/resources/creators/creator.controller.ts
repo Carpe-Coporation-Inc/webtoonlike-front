@@ -1,7 +1,10 @@
 "use server";
 
-import { AdminPageCreatorSchema, PublicCreatorSchema } from "@/resources/creators/creator.dto";
-import { ListResponseSchema, PaginationSchema } from "@/resources/globalTypes";
+import {
+  AdminPageCreatorT,
+  PublicCreatorT
+} from "@/resources/creators/creator.dto";
+import { ListResponse, PaginationSchema } from "@/resources/globalTypes";
 import z from "zod";
 import { action } from "@/handlers/safeAction";
 import creatorService from "@/resources/creators/creator.service";
@@ -11,18 +14,16 @@ export const getCreatorByUserId = action
   .bindArgsSchemas([
     z.number() // userId
   ])
-  .outputSchema(PublicCreatorSchema)
   .action(async ({
     bindArgsParsedInputs: [userId],
-  }) => {
+  }): Promise<PublicCreatorT> => {
     return creatorService.getByUserId(userId);
   });
 
 export const listCreators = action
   .metadata({ actionName: "listCreators" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(AdminPageCreatorSchema))
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput }): Promise<ListResponse<AdminPageCreatorT>> => {
     return creatorService.list(parsedInput);
   });
 
@@ -36,10 +37,9 @@ export const changeExposed = action
     z.number(), // creatorId
   ])
   .schema(ChangeExposedSchema)
-  .outputSchema(ChangeExposedSchema)
   .action(async ({
     bindArgsParsedInputs: [creatorId],
     parsedInput,
-  }) => {
+  }): Promise<ChangeExposedT> => {
     return creatorService.changeExposed(creatorId, parsedInput);
   });

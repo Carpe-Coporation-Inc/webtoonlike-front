@@ -1,7 +1,7 @@
 "use server";
 
 import {
-  WebtoonEpisodeDetailsSchema,
+  WebtoonEpisodeDetailsT,
   WebtoonEpisodeEnglishUrlFormSchema,
   WebtoonEpisodeFormSchema
 } from "@/resources/webtoonEpisodes/webtoonEpisode.dto";
@@ -16,10 +16,9 @@ export const getEpisode = action
     z.number(), // webtoonId
     z.number() // episodeId
   ])
-  .outputSchema(WebtoonEpisodeDetailsSchema)
   .action(async ({
     bindArgsParsedInputs: [webtoonId, episodeId],
-  }) => {
+  }): Promise<WebtoonEpisodeDetailsT> => {
     return webtoonEpisodeService.get(webtoonId, episodeId);
   });
 

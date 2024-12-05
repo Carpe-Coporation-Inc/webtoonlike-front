@@ -2,7 +2,7 @@
 
 import { action } from "@/handlers/safeAction";
 import {
-  UserAccountFormSchema,
+  UserAccountFormT,
   UserAccountWithBuyerFormSchema,
   UserAccountWithCreatorFormSchema
 } from "@/resources/users/dtos/user.dto";
@@ -25,8 +25,9 @@ export const createBuyerUser = action
 // /account/update
 export const getUser = action
   .metadata({ actionName: "getUser" })
-  .outputSchema(UserAccountFormSchema)
-  .action(userService.get);
+  .action(async (): Promise<UserAccountFormT> => {
+    return userService.get();
+  });
 
 // /account
 export const deleteUser = action

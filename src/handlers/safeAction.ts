@@ -53,7 +53,6 @@ export const action = createSafeActionClient({
   const start = Date.now();
 
   // Here we await the next middleware.
-  // todo output 무시
   const result = await next();
 
   const end = Date.now();

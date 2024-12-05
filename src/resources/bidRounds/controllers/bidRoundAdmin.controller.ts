@@ -4,11 +4,11 @@
 import { action } from "@/handlers/safeAction";
 import z from "zod";
 import { BidRoundApprovalStatus } from "@/resources/bidRounds/dtos/bidRound.dto";
-import { ListResponseSchema, PaginationSchema } from "@/resources/globalTypes";
+import { ListResponse, PaginationSchema } from "@/resources/globalTypes";
 import {
-  AdminPageBidRoundSchema,
-  AdminPageBidRoundWithOffersSchema,
-  BidRoundAdminSettingsSchema,
+  AdminPageBidRoundT,
+  AdminPageBidRoundWithOffersT,
+  BidRoundAdminSettingsT,
   StrictBidRoundAdminSettingsSchema
 } from "@/resources/bidRounds/dtos/bidRoundAdmin.dto";
 import bidRoundAdminService from "@/resources/bidRounds/services/bidRoundAdmin.service";
@@ -20,16 +20,14 @@ export type AdminPageBidRoundFilterT = z.infer<typeof AdminPageBidRoundFilterSch
 export const adminListBidRoundsWithWebtoon = action
   .metadata({ actionName: "adminListBidRoundsWithWebtoon" })
   .schema(AdminPageBidRoundFilterSchema)
-  .outputSchema(ListResponseSchema(AdminPageBidRoundSchema))
-  .action(async ({ parsedInput: parsedInput }) => {
+  .action(async ({ parsedInput: parsedInput }): Promise<ListResponse<AdminPageBidRoundT>> => {
     return bidRoundAdminService.adminListBidRoundsWithWebtoon(parsedInput);
   });
 
 export const adminListBidRoundsWithOffers = action
   .metadata({ actionName: "adminListBidRoundsWithOffers" })
   .schema(PaginationSchema)
-  .outputSchema(ListResponseSchema(AdminPageBidRoundWithOffersSchema))
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput }) : Promise<ListResponse<AdminPageBidRoundWithOffersT>> => {
     return bidRoundAdminService.adminListBidRoundsWithOffers(parsedInput);
   });
 
@@ -59,9 +57,8 @@ export const getBidRoundAdminSettings = action
   .bindArgsSchemas([
     z.number() // bidRoundId
   ])
-  .outputSchema(BidRoundAdminSettingsSchema)
   .action(async (
-    { bindArgsParsedInputs: [bidRoundId] }) => {
+    { bindArgsParsedInputs: [bidRoundId] }): Promise<BidRoundAdminSettingsT> => {
     return bidRoundAdminService.getBidRoundAdminSettings(bidRoundId);
   });
 

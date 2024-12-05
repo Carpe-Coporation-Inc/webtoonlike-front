@@ -9,8 +9,7 @@ export const previewInvoice = action
   .bindArgsSchemas([
     z.number() //offerProposalId
   ])
-  .outputSchema(z.string())
-  .action(async ({ bindArgsParsedInputs: [offerProposalId] }) => {
+  .action(async ({ bindArgsParsedInputs: [offerProposalId] }): Promise<string> => {
     return invoiceContentService.previewOrCreateInvoice(
       offerProposalId,
       false
@@ -22,8 +21,7 @@ export const createInvoice = action
   .bindArgsSchemas([
     z.number() //offerProposalId
   ])
-  .outputSchema(z.string())
-  .action(async ({ bindArgsParsedInputs: [offerProposalId] }) => {
+  .action(async ({ bindArgsParsedInputs: [offerProposalId] }): Promise<string> => {
     return invoiceContentService.previewOrCreateInvoice(
       offerProposalId,
       true
@@ -35,7 +33,6 @@ export const downloadInvoiceContent = action
   .bindArgsSchemas([
     z.number() // invoiceId
   ])
-  .outputSchema(z.string())
-  .action(async ({ bindArgsParsedInputs: [invoiceId] }) => {
+  .action(async ({ bindArgsParsedInputs: [invoiceId] }): Promise<string> => {
     return invoiceContentService.download(invoiceId);
   });
