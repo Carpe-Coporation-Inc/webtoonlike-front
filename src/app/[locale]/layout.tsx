@@ -12,7 +12,6 @@ import { Toaster } from "@/shadcn/ui/toaster";
 import Alert from "@/components/root/Alert";
 import { updateTokenInfo } from "@/resources/tokens/token.service";
 import SignUpComplete from "@/components/root/SignUpComplete";
-import { routing } from "@/i18n/routing";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,21 +26,16 @@ export const metadata: Metadata = {
 // todo 썸네일용 파일 별도 저장
 
 export default async function RootLayout({
-  children, params
+  children
 }: {
   children: ReactNode;
-  params: Promise<{
-    locale: string;
-  }>;
 }) {
-  const passedLocale = await params.then(p => p.locale);
-  const determinedLocale = await getLocale();
+  const locale = await getLocale();
   const messages = await getMessages();
-  const { signUpFinished, signedInToClerk } = routing.locales.includes(passedLocale as any)
-    ? await updateTokenInfo() : {};
+  const { signUpFinished, signedInToClerk } = await updateTokenInfo();
   return (
-    <html lang={determinedLocale}>
-      <ClerkProvider localization={determinedLocale === "en" ? enUS : koKR}>
+    <html lang={locale}>
+      <ClerkProvider localization={locale === "en" ? enUS : koKR}>
         <NextIntlClientProvider messages={messages}>
           <body className={`${inter.className} min-h-screen flex flex-col`}>
             <Header/>
