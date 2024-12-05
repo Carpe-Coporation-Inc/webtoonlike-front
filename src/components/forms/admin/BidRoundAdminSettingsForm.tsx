@@ -19,7 +19,7 @@ import { Control, FieldValues } from "react-hook-form";
 import {
   BidRoundApprovalStatus,
 } from "@/resources/bidRounds/dtos/bidRound.dto";
-import { FieldName, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shadcn/ui/form";
+import { FieldNameRestricted, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shadcn/ui/form";
 import { clsx } from "clsx";
 import { CalendarIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -178,7 +178,7 @@ function DialogContentWrapper({
 
 function CalendarFormField<TFieldValues extends FieldValues>({ control, name, label }: {
   control: Control<TFieldValues>;
-  name: FieldName<TFieldValues, Date>;
+  name: FieldNameRestricted<TFieldValues, Date>;
   label: string;
 }) {
   const nowLocale = useLocale();

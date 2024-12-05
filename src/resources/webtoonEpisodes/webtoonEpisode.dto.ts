@@ -2,7 +2,9 @@ import z from "zod";
 import { ResourceSchema } from "@/resources/globalTypes";
 
 const WebtoonEpisodeBaseSchema = z.object({
-  episodeNo: z.number().min(1, "mustPositiveNumber"),
+  episodeNo: z.number({
+    invalid_type_error: "required"
+  }).min(1, "mustPositiveNumber"),
   englishUrl: z.string().url().optional()
     .or(z.string().max(0)), // empty 값인 경우 고려
   imagePaths: z.array(z.string()).min(1, "required"),

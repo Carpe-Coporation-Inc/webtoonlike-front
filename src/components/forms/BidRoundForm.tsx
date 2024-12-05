@@ -16,7 +16,7 @@ import {
   FormLabel, FormMessage
 } from "@/shadcn/ui/form";
 import ContractRangeForm, { FormT } from "@/components/forms/ContractRangeForm";
-import { NumericInput } from "@/shadcn/ui/input";
+import { Input } from "@/shadcn/ui/input";
 import { createOrUpdateBidRound } from "@/resources/bidRounds/controllers/bidRound.controller";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { clsx } from "clsx";
@@ -48,7 +48,7 @@ export default function BidRoundForm({ webtoonId, prev }: {
             values: {},
             errors: {
               currentEpisodeNo: {
-                type: "invalidNumber",
+                type: "custom",
                 message: t("form.currentEpisodeNoMustBeLessThanTotal")
               },
             }
@@ -181,42 +181,56 @@ function EpisodeCountFieldSet({ form }: {
     <fieldset>
       <Label>{t("serviceEpisodeInformation")}</Label>
       <Row className="gap-4">
+        <FormField
+          control={form.control}
+          name="currentEpisodeNo"
+          render={({ field }) => {
+            const registeredField = form.register(field.name, {
+              setValueAs: (rawInput: string) => parseInt(rawInput) || null
+            });
+            return <FormItem forcedIsInline={true}>
+              <FormControl>
+                <Input
+                  {...field}
+                  {...registeredField}
+                  className="w-fit p-1 text-right"
+                  maxLength={4}
+                  size={4}
+                  placeholder="_"
+                />
+              </FormControl>
+              <FormLabel>
+                {t("currentEpisode")}
+              </FormLabel>
+            </FormItem>;
+          }} />
 
-        <FormItem forcedIsInline={true}>
-          <FormControl>
-            <NumericInput
-              register={form.register}
-              name="currentEpisodeNo"
-              className="w-fit p-1 text-right"
-              maxLength={4}
-              size={4}
-              placeholder="_"
-            />
-          </FormControl>
-          <FormLabel>
-            {t("currentEpisode")}
-          </FormLabel>
-        </FormItem>
-
-        <FormItem forcedIsInline={true}>
-          <FormControl>
-            <NumericInput
-              register={form.register}
-              name="totalEpisodeCount"
-              className="w-fit p-1 text-right"
-              maxLength={4}
-              size={4}
-              placeholder="_"
-            />
-          </FormControl>
-          <FormLabel>
-            {t("expectingOrFinishedEpisode")}
-          </FormLabel>
-        </FormItem>
-
+        <FormField
+          control={form.control}
+          name="totalEpisodeCount"
+          render={({ field }) => {
+            const registeredField = form.register(field.name, {
+              setValueAs: (rawInput: string) => parseInt(rawInput) || null
+            });
+            return <FormItem forcedIsInline={true}>
+              <FormControl>
+                <Input
+                  {...field}
+                  {...registeredField}
+                  className="w-fit p-1 text-right"
+                  maxLength={4}
+                  size={4}
+                  placeholder="_"
+                />
+              </FormControl>
+              <FormLabel>
+                {t("expectingOrFinishedEpisode")}
+              </FormLabel>
+            </FormItem>;
+          }} />
       </Row>
-      {errors.currentEpisodeNo
-        && <div className="text-sm font-medium text-destructive">
+      {errors.currentEpisodeNo?.type === "custom"
+        && <div className="mt-1.5 text-sm font-medium text-destructive">
           {errors.currentEpisodeNo.message}
         </div>}
     </fieldset>
@@ -231,21 +245,29 @@ function MonthlyCountFieldSet({ form }: {
     <fieldset>
       <Label>{t("monthlyProductionAvailableRounds")}</Label>
 
-      <FormItem forcedIsInline={true}>
-        <FormControl>
-          <NumericInput
-            register={form.register}
-            name="monthlyEpisodeCount"
-            className="w-fit p-1 text-right"
-            maxLength={4}
-            size={4}
-            placeholder="_"
-          />
-        </FormControl>
-        <FormLabel>
-          {t("episodesPossible")}
-        </FormLabel>
-      </FormItem>
+      <FormField
+        control={form.control}
+        name="monthlyEpisodeCount"
+        render={({ field }) => {
+          const registeredField = form.register(field.name, {
+            setValueAs: (rawInput: string) => parseInt(rawInput) || null
+          });
+          return <FormItem forcedIsInline={true}>
+            <FormControl>
+              <Input
+                {...field}
+                {...registeredField}
+                className="w-fit p-1 text-right"
+                maxLength={4}
+                size={4}
+                placeholder="_"
+              />
+            </FormControl>
+            <FormLabel>
+              {t("episodesPossible")}
+            </FormLabel>
+          </FormItem>;
+        }} />
 
     </fieldset>
   );
@@ -258,23 +280,29 @@ function FinishedFieldSet({ form }: {
   return (
     <fieldset>
       <Label>{t("serviceEpisodeInformation")}</Label>
-
-      <FormItem forcedIsInline={true}>
-        <FormControl>
-          <NumericInput
-            register={form.register}
-            name="totalEpisodeCount"
-            className="w-fit p-1 text-right"
-            maxLength={4}
-            size={4}
-            placeholder="_"
-          />
-        </FormControl>
-        <FormLabel>
-          {t("episodesCompleted")}
-        </FormLabel>
-      </FormItem>
-
+      <FormField
+        control={form.control}
+        name="totalEpisodeCount"
+        render={({ field }) => {
+          const registeredField = form.register(field.name, {
+            setValueAs: (rawInput: string) => parseInt(rawInput) || null
+          });
+          return <FormItem forcedIsInline={true}>
+            <FormControl>
+              <Input
+                {...field}
+                {...registeredField}
+                className="w-fit p-1 text-right"
+                maxLength={4}
+                size={4}
+                placeholder="_"
+              />
+            </FormControl>
+            <FormLabel>
+              {t("episodesCompleted")}
+            </FormLabel>
+          </FormItem>;
+        }} />
     </fieldset>
   );
 }

@@ -233,6 +233,6 @@ export const FormMessage = React.forwardRef<
 });
 FormMessage.displayName = "FormMessage";
 
-export type FieldName<TFieldValues extends FieldValues, AllowedFieldType> = {
-  [K in FieldPath<TFieldValues>]: FieldPathValue<TFieldValues, K> extends AllowedFieldType | undefined ? K : never;
+export type FieldNameRestricted<TFieldValues extends FieldValues, AllowedFieldType> = {
+  [K in FieldPath<TFieldValues>]: FieldPathValue<TFieldValues, K> extends AllowedFieldType ? K : never;
 }[FieldPath<TFieldValues>];

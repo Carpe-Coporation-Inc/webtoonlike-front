@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
-import { Input, NumericInput } from "@/shadcn/ui/input";
+import { Input } from "@/shadcn/ui/input";
 import { Button } from "@/shadcn/ui/button";
 import { Col, Row } from "@/components/ui/common";
 import { useTranslations } from "next-intl";
@@ -103,19 +103,24 @@ export default function WebtoonEpisodeForm({
         <FormField
           control={form.control}
           name="episodeNo"
-          render={({ field }) => (<FormItem>
-            <FormLabel>
-              {t("episodeNumber")}
-            </FormLabel>
-            <FormControl>
-              <NumericInput
-                register={form.register}
-                name={field.name}
-                placeholder={t("episodeNumberPlaceholder")}
-              />
-            </FormControl>
-            <FormMessage/>
-          </FormItem>)}/>
+          render={({ field }) => {
+            const registeredField = form.register(field.name, {
+              setValueAs: (rawInput: string) => parseInt(rawInput) || null
+            });
+            return <FormItem>
+              <FormLabel>
+                {t("episodeNumber")}
+              </FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  {...registeredField}
+                  placeholder={t("episodeNumberPlaceholder")}
+                />
+              </FormControl>
+              <FormMessage/>
+            </FormItem>;
+          }}/>
 
         <ImageListField imageList={imageList} className="mt-8" />
         <SubmitButton

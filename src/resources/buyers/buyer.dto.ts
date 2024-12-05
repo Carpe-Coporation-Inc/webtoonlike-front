@@ -37,7 +37,7 @@ const BuyerBaseSchema = z.object({
   role: z.string().min(1, "required"),
   /** 사업자등록번호 */
   businessNumber: z.string()
-    .regex(/^([0-9]{3})-?([0-9]{2})-?([0-9]{5})$/, "invalidBusinessNoFormat"),
+    .regex(/^([0-9]{3})-([0-9]{2})-([0-9]{5})$/, "invalidBusinessNoFormat"),
   /** 사업자등록증 파일 경로 */
   businessCertificatePath: z.string().optional(),
   /** 명함 파일 경로 */

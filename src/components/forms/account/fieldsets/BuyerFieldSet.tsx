@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { useMemo } from "react";
 import { Input } from "@/shadcn/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shadcn/ui/select";
 import MultipleSelector from "@/shadcn/ui/multi-select";
@@ -19,36 +19,44 @@ import useAccountFormImage from "@/components/forms/account/components/AccountFo
 
 export default function useBuyerFieldSet(form: UseFormReturn<UserAccountWithBuyerFormT>) {
   // 번역
-  const prevBuyer = form.getValues("buyer");
+  const thumbnail = useAccountFormImage({
+    form,
+    name: "buyer.thumbPath",
+    directory: FileDirectoryT.BuyersThumbnails
+  });
+  const businessCert = useAccountFormImage({
+    form,
+    name: "buyer.businessCertificatePath",
+    directory: FileDirectoryT.BuyersCerts
+  });
+  const businessCard = useAccountFormImage({
+    form,
+    name: "buyer.businessCardPath",
+    directory: FileDirectoryT.BuyersCards
+  });
 
-  const thumbnail = useAccountFormImage(prevBuyer?.thumbPath);
-  const businessCert = useAccountFormImage(prevBuyer?.businessCertificatePath);
-  const businessCard = useAccountFormImage(prevBuyer?.businessCardPath);
-
-  const beforeSubmission = async () => {
-    await thumbnail.image.uploadAndGetRemotePath(FileDirectoryT.BuyersThumbnails)
-      .then(remotePath => form.setValue("buyer.thumbPath", remotePath));
-    await businessCert.image.uploadAndGetRemotePath(FileDirectoryT.BuyersCerts)
-      .then(remotePath => form.setValue("buyer.businessCertificatePath", remotePath));
-    await businessCard.image.uploadAndGetRemotePath(FileDirectoryT.BuyersCards)
-      .then(remotePath => form.setValue("buyer.businessCardPath", remotePath));
-  };
-
+  const t = useTranslations("buyerInfoPage");
   const element = (
     <fieldset>
       <BusinessNumberField form={form}/>
       <BusinessFieldField form={form}/>
       <BusinessTypeField form={form}/>
-      <BusinessCertField form={form} element={businessCert.element}/>
+      <businessCert.ImageFormField
+        placeholder={t("uploadBusinessReg")}
+        label={t("businessReg")}/>
 
       <hr className="my-5"/>
 
       <BusinessNameField form={form}/>
-      <CompanyLogoField form={form} element={thumbnail.element}/>
+      <thumbnail.ImageFormField
+        placeholder={t("insertCompanyLogo")}
+        label={t("companyLogo")}/>
       <DepartmentField form={form}/>
       <PositionField form={form}/>
       <RoleField form={form}/>
-      <BusinessCardField form={form} element={businessCard.element}/>
+      <businessCard.ImageFormField
+        placeholder={t("attachEmploymentCert")}
+        label={t("employmentCert")}/>
 
       <hr className="my-5"/>
 
@@ -56,7 +64,14 @@ export default function useBuyerFieldSet(form: UseFormReturn<UserAccountWithBuye
     </fieldset>
   );
 
-  return { element, beforeSubmission };
+  return {
+    element,
+    beforeSubmission: async () => {
+      await thumbnail.beforeSubmission();
+      await businessCert.beforeSubmission();
+      await businessCard.beforeSubmission();
+    }
+  };
 }
 
 function BusinessNumberField({ form }: {
@@ -64,23 +79,40 @@ function BusinessNumberField({ form }: {
 }) {
   const t = useTranslations("buyerInfoPage");
 
+  const registeredField = useMemo(() => form.register("buyer.businessNumber", {
+    setValueAs: (rawInput: string) => {
+      // Remove non-numeric
+      const numericOnly = rawInput.replace(/\D/g, "").slice(0, 10);
+
+      // Insert hyphens where relevant
+      return numericOnly
+        .replace(/^(\d{1,3})(\d{1,2})?(\d{1,5})?$/, (match, p1, p2, p3) => {
+          let result = p1; // Always include the first group (1-3 digits)
+          if (p2) result += `-${p2}`; // Add the second group (1-2 digits) if available
+          if (p3) result += `-${p3}`; // Add the third group (1-5 digits) if available
+          return result;
+        });
+    }
+  }), [form]);
+
   return <FormField
     control={form.control}
-    name="buyer.businessNumber"
-    render={({ field }) => (
-      <FormItem>
+    name={registeredField.name}
+    render={({ field }) => {
+      return <FormItem>
         <FormLabel>{t("businessRegNo")}</FormLabel>
         <FormControl>
           <Input
             {...field}
+            {...registeredField}
             type="text"
             inputMode="numeric"
             placeholder={t("businessRegPlaceholder")}
           />
         </FormControl>
         <FormMessage/>
-      </FormItem>
-    )}
+      </FormItem>;
+    }}
   />;
 }
 
@@ -99,11 +131,6 @@ function BusinessFieldField({ form }: {
     control={form.control}
     name="buyer.businessField"
     render={({ field }) => {
-      if (!field.value) {
-        form.setValue(field.name, [], {
-          shouldValidate: true
-        });
-      }
       const preSelectOptions = options.filter(option => field.value?.includes(option.value));
       return <FormItem>
         <FormLabel>{t("businessField")}</FormLabel>
@@ -144,18 +171,13 @@ function BusinessTypeField({ form }: {
     control={form.control}
     name="buyer.businessType"
     render={({ field }) => {
-      if (!field.value) {
-        form.setValue(field.name, [], {
-          shouldValidate: true
-        });
-      }
       const preSelectOptions = options.filter(option => field.value?.includes(option.value));
       return <FormItem>
         <FormLabel>{t("businessType")}</FormLabel>
         <FormControl>
           <MultipleSelector
             onChange={(options) => {
-              form.setValue("buyer.businessType",
+              form.setValue(field.name,
                 options.map(o => BuyerCompanyTypeSchema.parse(o.value)), {
                   shouldValidate: true
                 }
@@ -173,24 +195,6 @@ function BusinessTypeField({ form }: {
         <FormMessage/>
       </FormItem>;
     }}
-  />;
-}
-
-function BusinessCertField({ form, element }: {
-  form: UseFormReturn<UserAccountWithBuyerFormT>;
-  element: (placeholder: string) => JSX.Element;
-}) {
-  const t = useTranslations("buyerInfoPage");
-
-  return <FormField
-    control={form.control}
-    name="buyer.businessCertificatePath"
-    render={() => (
-      <FormItem>
-        <FormLabel>{t("companyLogo")}</FormLabel>
-        {element(t("uploadBusinessReg"))}
-      </FormItem>
-    )}
   />;
 }
 
@@ -213,24 +217,6 @@ function BusinessNameField({ form }: {
           />
         </FormControl>
         <FormMessage/>
-      </FormItem>
-    )}
-  />;
-}
-
-function CompanyLogoField({ form, element }: {
-  form: UseFormReturn<UserAccountWithBuyerFormT>;
-  element: (placeholder: string) => JSX.Element;
-}) {
-  const t = useTranslations("buyerInfoPage");
-
-  return <FormField
-    control={form.control}
-    name="buyer.thumbPath"
-    render={() => (
-      <FormItem>
-        <FormLabel>{t("companyLogo")}</FormLabel>
-        {element(t("insertCompanyLogo"))}
       </FormItem>
     )}
   />;
@@ -302,24 +288,6 @@ function RoleField({ form }: {
           />
         </FormControl>
         <FormMessage/>
-      </FormItem>
-    )}
-  />;
-}
-
-function BusinessCardField({ form, element }: {
-  form: UseFormReturn<UserAccountWithBuyerFormT>;
-  element: (placeholder: string) => JSX.Element;
-}) {
-  const t = useTranslations("buyerInfoPage");
-
-  return <FormField
-    control={form.control}
-    name="buyer.businessCardPath"
-    render={() => (
-      <FormItem>
-        <FormLabel>{t("employmentCert")}</FormLabel>
-        {element(t("attachEmploymentCert"))}
       </FormItem>
     )}
   />;

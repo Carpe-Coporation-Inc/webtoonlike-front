@@ -1,14 +1,12 @@
 import * as React from "react";
 
 import { cn } from "@/shadcn/lib/utils";
-import { FieldValues, UseFormRegister } from "react-hook-form";
-import { FieldName } from "@/shadcn/ui/form";
-import { useMemo, useState } from "react";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
+// todo isDirty 설정
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, value, ...props }, ref) => {
     return (
@@ -19,8 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className
         )}
         ref={ref}
-        value={value
-          ?? (props.defaultValue ? undefined : "")}
+        value={value ?? ""}
         {...props}
       />
     );
@@ -29,33 +26,3 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = "Input";
 
 export { Input };
-
-//여기서부터 커스텀
-interface NumericInputProps<TFieldValues extends FieldValues>
-  extends Omit<InputProps, "type" | "value"> {
-  register: UseFormRegister<TFieldValues>;
-  name: FieldName<TFieldValues, number>;
-}
-
-export function NumericInput<TFieldValues extends FieldValues>(
-  { register, name, ...props }: NumericInputProps<TFieldValues>
-) {
-  const [displayValue, setDisplayValue] = useState<string>("");
-  const field = useMemo(() => register(name, {
-    setValueAs: (rawInput: string) => {
-      const intValue = parseInt(rawInput);
-      if (intValue >= 0) {
-        setDisplayValue(intValue.toString());
-        return intValue;
-      } else if (!rawInput) {
-        setDisplayValue("");
-      }
-    }
-  }), [name, register]);
-  return <Input
-    {...props}
-    {...field}
-    type="text"
-    value={displayValue}
-  />;
-}

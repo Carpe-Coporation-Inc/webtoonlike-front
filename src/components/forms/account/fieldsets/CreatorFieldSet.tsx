@@ -12,25 +12,17 @@ export default function useCreatorFieldSet(form: UseFormReturn<UserAccountWithCr
   const t = useTranslations("setupPageNextForCreators");
 
   const prevCreator = form.getValues("creator");
-  const thumbnail = useAccountFormImage(prevCreator?.thumbPath);
-
-  const beforeSubmission = async () => {
-    await thumbnail.image.uploadAndGetRemotePath(FileDirectoryT.CreatorsThumbnails)
-      .then(remotePath => form.setValue("creator.thumbPath", remotePath));
-  };
+  const thumbnail = useAccountFormImage({
+    form,
+    name: "creator.thumbPath",
+    directory: FileDirectoryT.CreatorsThumbnails
+  });
 
   const element = (
     <fieldset>
-      <FormField
-        control={form.control}
-        name="creator.thumbPath"
-        render={() => (
-          <FormItem>
-            <FormLabel>{t("profilePic")}</FormLabel>
-            {thumbnail.element(t("uploadProfilePic"))}
-          </FormItem>
-        )}
-      />
+      <thumbnail.ImageFormField
+        placeholder={t("uploadProfilePic")}
+        label={t("profilePic")} />
       <FormField
         control={form.control}
         name="creator.isAgencyAffiliated"
@@ -124,5 +116,8 @@ export default function useCreatorFieldSet(form: UseFormReturn<UserAccountWithCr
     </fieldset>
   );
 
-  return { element, beforeSubmission };
+  return {
+    element,
+    beforeSubmission: thumbnail.beforeSubmission
+  };
 }
