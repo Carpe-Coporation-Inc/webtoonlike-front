@@ -12,7 +12,7 @@ export class ExpectedServerError extends Error {
   }) {
     super(message);
     this.httpCode = httpCode;
-    this.name = this.constructor.name;
+    this.name = Object.getPrototypeOf(this).constructor.name;
     this.title = title;
 
     /* 통상적인 사용 시 발생하기 어려운 경우 로그로 기록: 클라이언트 로직 오류를 살피기 위함*/

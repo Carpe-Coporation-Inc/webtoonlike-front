@@ -201,6 +201,7 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
   sub          String   @unique
+  // todo 참고용임을 명시하는 이름으로 교체
   email        String
   name         String
   phone        String

@@ -18,6 +18,8 @@ export const notAuthorizedErrorWithMessage = async (): Promise<NotAuthorizedErro
   });
 };
 
+// todo 로그인 안된 상태에서 접근 시 401 뜨도록 조정
+
 export const getClerkUser = async (): Promise<ClerkUser> => {
   const clerkUser = await currentUser();
   if (!clerkUser) {
