@@ -2,7 +2,6 @@ import * as React from "react";
 import type { SVGProps } from "react";
 
 export const IconGrid = ({
-  className,
   ...props
 }: SVGProps<SVGSVGElement>) => (
   <svg

@@ -14,8 +14,8 @@ export default async function SignInPage() {
     });
   }
   return (
-    <div className='h-screen w-screen'>
-      <div className='absolute left-1/2 top-1/2 w-fit -translate-x-1/2 -translate-y-1/2'>
+    <div className="h-screen w-screen">
+      <div className="absolute left-1/2 top-1/2 w-fit -translate-x-1/2 -translate-y-1/2">
         <SignIn
           appearance={{
             elements: {

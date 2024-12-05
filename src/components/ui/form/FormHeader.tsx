@@ -8,7 +8,7 @@ export function FormHeader({ title, goBackHref }: {
   goBackHref: string;
 }) {
   return <Row className="items-center mb-14">
-    <Button variant='ghost' asChild>
+    <Button variant="ghost" asChild>
       <Link href={goBackHref}>
         <ArrowLeftIcon width={32} height={32} />
       </Link>

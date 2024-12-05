@@ -40,7 +40,7 @@ export default function NotificationDropdown() {
         <IconBell className="fill-white cursor-pointer"/>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align='end' className="bg-white text-black rounded-sm min-w-[320px] max-w-[430px] p-0 h-fit">
+      <DropdownMenuContent align="end" className="bg-white text-black rounded-sm min-w-[320px] max-w-[430px] p-0 h-fit">
         <Col className="w-full h-[110px] p-[20px] pb-0 sticky top-0 bg-white/95">
           <Row className="justify-between">
             <p className="text-black text-[16pt] font-bold">알림</p>

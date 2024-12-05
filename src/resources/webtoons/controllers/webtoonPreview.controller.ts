@@ -7,10 +7,10 @@ import z from "zod";
 import { action } from "@/handlers/safeAction";
 import { AgeLimit } from "@/resources/webtoons/dtos/webtoon.dto";
 import {
-  MyWebtoonNotOnSaleSchema, MyWebtoonNotOnSaleT,
+  MyWebtoonNotOnSaleT,
   MyWebtoonOnSaleT, WebtoonPreviewT
 } from "@/resources/webtoons/dtos/webtoonPreview.dto";
-import { ListResponse, ListResponseSchema, PaginationSchema } from "@/resources/globalTypes";
+import { ListResponse, PaginationSchema } from "@/resources/globalTypes";
 import webtoonPreviewService from "@/resources/webtoons/services/webtoonPreview.service";
 
 const WebtoonFilterSchema = PaginationSchema.extend({

@@ -102,8 +102,8 @@ function DialogContentWrapper({ reload, prev }: {
               <FormControl>
                 <Input
                   {...field}
-                  type='text'
-                  placeholder='ex) 로맨스, 액션, 스릴러 등...'
+                  type="text"
+                  placeholder="ex) 로맨스, 액션, 스릴러 등..."
                 />
               </FormControl>
               <FormMessage/>
@@ -119,8 +119,8 @@ function DialogContentWrapper({ reload, prev }: {
               <FormControl>
                 <Input
                   {...field}
-                  type='text'
-                  placeholder='ex) romance, action, thriller ...'
+                  type="text"
+                  placeholder="ex) romance, action, thriller ..."
                 />
               </FormControl>
               <FormMessage/>
@@ -130,9 +130,9 @@ function DialogContentWrapper({ reload, prev }: {
       </form>
     </Form>
 
-    <DialogFooter className='justify-end'>
+    <DialogFooter className="justify-end">
       <DialogClose asChild>
-        <Button variant='ghost'>
+        <Button variant="ghost">
           취소
         </Button>
       </DialogClose>

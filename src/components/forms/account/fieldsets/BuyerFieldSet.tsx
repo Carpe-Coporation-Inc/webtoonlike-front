@@ -73,7 +73,7 @@ function BusinessNumberField({ form }: {
         <FormControl>
           <Input
             {...field}
-            type='text'
+            type="text"
             inputMode="numeric"
             placeholder={t("businessRegPlaceholder")}
           />

@@ -179,7 +179,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
         setSelected(newOptions);
         onChange?.(newOptions);
       },
-      [selected],
+      [onChange, selected],
     );
 
     const handleKeyDown = React.useCallback(
@@ -197,7 +197,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
           }
         }
       },
-      [selected],
+      [handleUnselect, selected],
     );
 
     useEffect(() => {
@@ -238,7 +238,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
       };
 
       void exec();
-    }, [debouncedSearchTerm, open]);
+    }, [debouncedSearchTerm, groupBy, onSearch, open, triggerSearchOnFocus]);
 
     const CreatableItem = () => {
       if (!creatable) return undefined;
