@@ -83,8 +83,9 @@ export default function WebtoonEpisodeForm({
     // 제출이 아닌 validation 통과용
     // 제출 시에는 실제 remote 서버에 이미지 업로드 후 해당 url 사용
     form.setValue("imagePaths", episodeImages
-      .map(image => image.url), {
-      shouldValidate: true
+      .map(image => image.displayUrl), {
+      shouldValidate: true,
+      shouldDirty: true,
     });
   }, [episodeImages, form]);
 

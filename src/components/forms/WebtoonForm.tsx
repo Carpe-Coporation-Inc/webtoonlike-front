@@ -212,7 +212,8 @@ function ThumbnailField({ form, thumbnail, setThumbnail }: {
           const imageData = new ImageObject(event.target.files?.[0]);
           setThumbnail(imageData);
           form.setValue("thumbPath", "filedAdded", {
-            shouldValidate: true
+            shouldValidate: true,
+            shouldDirty: true
           });
           // 이 값은 실제 업로드 후 remote url로 대체되지만, {thumbPath: string} 조건의 validator를 통과하기 위함
         }}
