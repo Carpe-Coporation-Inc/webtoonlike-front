@@ -143,10 +143,16 @@ class OfferProposalService {
           },
           ...offerUserHelper.creatorQuery
         });
-        const thumbPath = await getClerkUserMap([creatorR.sub])
-          .then(map => map.get(creatorR.sub)?.imageUrl) ?? undefined;
+        const clerkUser = await getClerkUserMap([creatorR.sub])
+          .then(map => {
+            const clerkUser = map.get(creatorR.sub);
+            return {
+              thumbPath: clerkUser?.imageUrl,
+              email: clerkUser?.primaryEmailAddress?.emailAddress,
+            };
+          });
         const locale = await getLocale();
-        const sender = offerUserHelper.creatorMapToDTO(creatorR, locale, thumbPath);
+        const sender = offerUserHelper.creatorMapToDTO(creatorR, locale, clerkUser);
         return {
           ...offerProposalHelper.mapToDTO(r),
           sender,
@@ -159,9 +165,15 @@ class OfferProposalService {
           },
           ...offerUserHelper.buyerQuery
         });
-        const thumbPath = await getClerkUserMap([buyerR.sub])
-          .then(map => map.get(buyerR.sub)?.imageUrl) ?? undefined;
-        const sender = offerUserHelper.buyerMapToDTO(buyerR, thumbPath);
+        const clerkUser = await getClerkUserMap([buyerR.sub])
+          .then(map => {
+            const clerkUser = map.get(buyerR.sub);
+            return {
+              thumbPath: clerkUser?.imageUrl,
+              email: clerkUser?.primaryEmailAddress?.emailAddress,
+            };
+          });
+        const sender = offerUserHelper.buyerMapToDTO(buyerR, clerkUser);
         return {
           ...offerProposalHelper.mapToDTO(r),
           sender,
@@ -211,12 +223,23 @@ class OfferProposalService {
     const { user: buyerUser, bidRound } = r.offer;
     const { webtoon } = bidRound;
     const { user: creatorUser } = webtoon;
-    const clerkUserMap = await getClerkUserMap([buyerUser.sub, creatorUser.sub]);
+
+    // Clerk 유저 정보 추출
+    const clerkUserSubs = [buyerUser.sub, creatorUser.sub];
+    const [buyerClerkUser, creatorClerkUser] = await getClerkUserMap(clerkUserSubs)
+      .then(map => {
+        return clerkUserSubs.map(sub => {
+          const clerkUser = map.get(sub);
+          return {
+            thumbPath: clerkUser?.imageUrl,
+            email: clerkUser?.primaryEmailAddress?.emailAddress,
+          };
+        });
+      });
 
     // 바이어 정보 기입
-    const buyerClerkUser = clerkUserMap.get(buyerUser.sub);
     const buyerDto = offerUserHelper.buyerMapToDTO(
-      buyerUser, buyerClerkUser?.imageUrl, {
+      buyerUser, buyerClerkUser, {
         includeContactInfo: isInvoiced
       }
     );
@@ -224,9 +247,8 @@ class OfferProposalService {
     const locale = await getLocale();
 
     // 저작권자 정보 기입
-    const creatorClerkUser = clerkUserMap.get(creatorUser.sub);
     const creatorDto = offerUserHelper.creatorMapToDTO(
-      creatorUser, locale, creatorClerkUser?.imageUrl, {
+      creatorUser, locale, creatorClerkUser, {
         includeContactInfo: isInvoiced
       }
     );

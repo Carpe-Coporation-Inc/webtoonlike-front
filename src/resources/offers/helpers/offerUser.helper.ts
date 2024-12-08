@@ -16,26 +16,28 @@ class OfferUserHelper {
       sub: true,
       name: true,
       phone: true,
-      email: true,
       userType: true,
     }
   });
 
   private baseUserMapToDTO = (
     r: Prisma.UserGetPayload<typeof this.baseUserQuery>,
-    thumbPath: string | undefined,
+    clerkUser: {
+      thumbPath?: string;
+      email?: string;
+    },
     options?: QueryOptions
   ): OfferBaseUserT => {
     const dto: OfferBaseUserT = {
       id: r.id,
       name: r.name,
       userType: r.userType as UserTypeT,
-      thumbPath,
+      thumbPath: clerkUser.thumbPath,
     };
     if (options?.includeContactInfo) {
       dto.contactInfo = {
         phone: r.phone,
-        email: r.email
+        email: clerkUser.email ?? "",
       };
     }
     return dto;
@@ -57,7 +59,10 @@ class OfferUserHelper {
   creatorMapToDTO = (
     r: Prisma.UserGetPayload<typeof this.creatorQuery>,
     locale: string,
-    thumbPath: string | undefined,
+    clerkUser: {
+      thumbPath?: string;
+      email?: string;
+    },
     options?: QueryOptions
   ): OfferCreatorT => {
     const { creator } = r;
@@ -70,7 +75,7 @@ class OfferUserHelper {
         name: displayName(
           locale, creator.name, creator.name_en)
       },
-      user: this.baseUserMapToDTO(r, thumbPath, options)
+      user: this.baseUserMapToDTO(r, clerkUser, options)
     };
   };
 
@@ -89,7 +94,10 @@ class OfferUserHelper {
 
   buyerMapToDTO = (
     r: Prisma.UserGetPayload<typeof this.buyerQuery>,
-    thumbPath: string | undefined,
+    clerkUser: {
+      thumbPath?: string;
+      email?: string;
+    },
     options?: QueryOptions
   ): OfferBuyerT => {
     const { buyer } = r;
@@ -100,7 +108,7 @@ class OfferUserHelper {
       name: buyer.name,
       department: buyer.department,
       position: buyer.position,
-      user: this.baseUserMapToDTO(r, thumbPath, options)
+      user: this.baseUserMapToDTO(r, clerkUser, options)
     };
   };
 }

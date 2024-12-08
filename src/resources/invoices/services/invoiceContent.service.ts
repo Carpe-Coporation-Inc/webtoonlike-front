@@ -104,6 +104,7 @@ class InvoiceContentService {
         const { userId } = await getTokenInfo({
           admin: true,
         });
+        console.log(offerProposalId, userId);
         await tx.invoice.create({
           data: {
             offerProposal: {

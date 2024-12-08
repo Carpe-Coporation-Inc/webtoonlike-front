@@ -125,8 +125,8 @@ model Invoice {
   updatedAt DateTime @updatedAt @map("updated_at")
   content   Json
 
-  offerProposalId Int           @unique @map("offer_id")
-  userId          Int           @unique @map("user_id")
+  offerProposalId Int           @unique @map("offer_proposal_id")
+  userId          Int           @map("user_id")
   user            User          @relation(fields: [userId], references: [id], onDelete: Restrict)
   offerProposal   OfferProposal @relation(fields: [offerProposalId], references: [id], onDelete: Restrict)
 

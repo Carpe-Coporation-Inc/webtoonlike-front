@@ -1,5 +1,5 @@
 import "server-only";
-import { getTokenInfo } from "@/resources/tokens/token.service";
+import { getClerkUserMap, getTokenInfo } from "@/resources/tokens/token.service";
 import prisma from "@/utils/prisma";
 import { UserTypeT } from "@/resources/users/dtos/user.dto";
 import { AdminLevel } from "@/resources/tokens/token.types";
@@ -65,7 +65,7 @@ class AdminService {
             select: {
               id: true,
               name: true,
-              email: true,
+              sub: true,
               userType: true
             }
           }
@@ -73,6 +73,9 @@ class AdminService {
       }),
       prisma.admin.count()
     ]);
+    const clerkUserMap = await getClerkUserMap(
+      records.map(record => record.user.sub)
+    );
     return {
       items: records.map(record => ({
         id: record.id,
@@ -81,7 +84,7 @@ class AdminService {
         updatedAt: record.updatedAt,
         user: {
           name: record.user.name,
-          email: record.user.email,
+          email: clerkUserMap.get(record.user.sub)?.primaryEmailAddress?.emailAddress ?? "Email unknown",
           userType: record.user.userType as UserTypeT
         },
         isDeletable: (metadata.adminLevel >= AdminLevel.SuperAdmin

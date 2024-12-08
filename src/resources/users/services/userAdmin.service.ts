@@ -1,5 +1,5 @@
 import "server-only";
-import { getTokenInfo } from "@/resources/tokens/token.service";
+import { getClerkUserMap, getTokenInfo } from "@/resources/tokens/token.service";
 import prisma from "@/utils/prisma";
 import { UserTypeT } from "@/resources/users/dtos/user.dto";
 import { NonAdminUserSearchQueryT } from "@/resources/users/controllers/userAdmin.controller";
@@ -78,14 +78,18 @@ class UserAdminService {
       select: {
         id: true,
         name: true,
-        email: true,
+        sub: true,
         userType: true
       }
     });
+    const clerkUserMap = await getClerkUserMap(
+      records.map(record => record.sub)
+    );
+
     return records.map(r => ({
       id: r.id,
       name: r.name,
-      email: r.email,
+      email: clerkUserMap.get(r.sub)?.primaryEmailAddress?.emailAddress ?? "Email unknown",
       userType: r.userType as UserTypeT
     }));
   }
