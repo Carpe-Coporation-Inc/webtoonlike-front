@@ -5,12 +5,14 @@ import useSafeActionForm from "@/hooks/safeActionForm";
 import { createOffer } from "@/resources/offers/controllers/offerProposal.controller";
 import { OfferProposalFormSchema } from "@/resources/offers/dtos/offerProposal.dto";
 import FormWrapper from "@/components/forms/offer/FormWrapper";
+import { useTranslations } from "next-intl";
 
 export default function OfferForm({ bidRoundId }: {
   bidRoundId: number;
 }) {
   const { toast } = useToast();
   const router = useRouter();
+  const t = useTranslations("offerDetails");
   const safeActionFormReturn = useSafeActionForm(
     createOffer.bind(null, bidRoundId),
     {
@@ -19,7 +21,7 @@ export default function OfferForm({ bidRoundId }: {
       actionProps: {
         onSuccess: () => {
           toast({
-            description: "오퍼를 보냈습니다."
+            description: t("makeOfferToast")
           });
           router.replace("/offers", {
             scroll: true
@@ -27,5 +29,5 @@ export default function OfferForm({ bidRoundId }: {
         }
       }
     });
-  return <FormWrapper {...safeActionFormReturn}/>;
+  return <FormWrapper title={t("makeOffer")} {...safeActionFormReturn}/>;
 }

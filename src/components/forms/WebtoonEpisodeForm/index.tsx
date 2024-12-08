@@ -16,7 +16,7 @@ import { IconUpArrow } from "@/components/svgs/IconUpArrow";
 import { IconDownArrow } from "@/components/svgs/IconDownArrow";
 import { IconUpload } from "@/components/svgs/IconUpload";
 import { useRouter } from "@/i18n/routing";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shadcn/ui/form";
+import { Form, FormControl, FormItem, FormLabel, FormMessage, NumericFormField } from "@/shadcn/ui/form";
 import EpisodeImagePreview from "@/components/forms/WebtoonEpisodeForm/EpisodeImagePreview";
 import { DropzoneRootProps, useDropzone } from "react-dropzone";
 import { createOrUpdateEpisode } from "@/resources/webtoonEpisodes/webtoonEpisode.controller";
@@ -77,7 +77,6 @@ export default function WebtoonEpisodeForm({
         form.setValue("imagePaths", imagePaths);
       }
     });
-  const { formState: { isValid, isDirty } } = form;
 
   useEffect(() => {
     // 제출이 아닌 validation 통과용
@@ -101,13 +100,10 @@ export default function WebtoonEpisodeForm({
             : `/webtoons/${webtoonId}`}
         />
 
-        <FormField
-          control={form.control}
+        <NumericFormField
+          register={form.register}
           name="episodeNo"
           render={({ field }) => {
-            const registeredField = form.register(field.name, {
-              setValueAs: (rawInput: string) => parseInt(rawInput) || null
-            });
             return <FormItem>
               <FormLabel>
                 {t("episodeNumber")}
@@ -115,7 +111,6 @@ export default function WebtoonEpisodeForm({
               <FormControl>
                 <Input
                   {...field}
-                  {...registeredField}
                   placeholder={t("episodeNumberPlaceholder")}
                 />
               </FormControl>
@@ -124,9 +119,7 @@ export default function WebtoonEpisodeForm({
           }}/>
 
         <ImageListField imageList={imageList} className="mt-8" />
-        <SubmitButton
-          disabled={!isValid || !isDirty}
-          isNew={!prev}/>
+        <SubmitButton control={form.control} isNew={false} />
       </form>
     </Form>
   );

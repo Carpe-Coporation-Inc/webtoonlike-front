@@ -16,7 +16,7 @@ export default function Controls({ offerProposal }: {
   offerProposal: OfferProposalDetailsT;
 }) {
   const { toast } = useToast();
-  const t = useTranslations("offerControls");
+  const t = useTranslations("offerDetails.controls");
   const boundChangeOfferProposalStatus = useMemo(() => changeOfferProposalStatus
     .bind(null, offerProposal.id), [offerProposal.id]);
   const { changeStatus, reloadProposals } = useContext(OfferDetailsContext);
@@ -70,7 +70,7 @@ export default function Controls({ offerProposal }: {
       </Button>
       <Button variant="gray" onClick={() =>
         setShowForm(prev => !prev)}>
-        {t("message.actionButton")}
+        {t("propose.actionButton")}
       </Button>
       <Button variant="mint" onClick={acceptConfirm.open}>
         {t("accept.actionButton")}

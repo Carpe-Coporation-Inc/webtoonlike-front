@@ -96,6 +96,7 @@ function DialogContentWrapper({ reload, prev }: {
         <FormField
           control={form.control}
           name="label"
+          defaultValue=""
           render={({ field }) => (
             <FormItem>
               <FormLabel>한글</FormLabel>
@@ -113,6 +114,7 @@ function DialogContentWrapper({ reload, prev }: {
         <FormField
           control={form.control}
           name="label_en"
+          defaultValue=""
           render={({ field }) => (
             <FormItem>
               <FormLabel>영어</FormLabel>

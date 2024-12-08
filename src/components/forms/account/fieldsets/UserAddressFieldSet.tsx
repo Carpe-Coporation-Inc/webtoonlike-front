@@ -20,7 +20,9 @@ export default function UserAddressFieldSet({ form }: {
           <FormItem className="flex-1">
             <FormLabel>{t("country")}</FormLabel>
             <FormControl>
-              <Select defaultValue={field?.value ?? ""}
+              <Select
+                name={field.name}
+                defaultValue={field.value}
                 onValueChange={field.onChange}
               >
                 <SelectTrigger>
@@ -44,6 +46,7 @@ export default function UserAddressFieldSet({ form }: {
       <FormField
         control={form.control}
         name="postcode"
+        defaultValue=""
         render={({ field }) => (
           <FormItem className="flex-1">
             <FormLabel>{t("postalCode")}</FormLabel>
@@ -64,6 +67,7 @@ export default function UserAddressFieldSet({ form }: {
     <FormField
       control={form.control}
       name="addressLine1"
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t("address1")}</FormLabel>
@@ -83,6 +87,7 @@ export default function UserAddressFieldSet({ form }: {
     <FormField
       control={form.control}
       name="addressLine2"
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t("address2")}</FormLabel>

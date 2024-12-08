@@ -140,6 +140,7 @@ function DialogContentWrapper({
         <FormField
           control={form.control}
           name="adminNote"
+          defaultValue=""
           render={({ field }) => (
             <FormItem forcedIsInline={true}>
               <FormLabel className="w-[120px]">관리자 메모</FormLabel>
@@ -189,7 +190,7 @@ function CalendarFormField<TFieldValues extends FieldValues>({ control, name, la
       <FormItem forcedIsInline={true}>
         <FormLabel className="w-[120px]">{label}</FormLabel>
         <FormControl>
-          <Input {...field} type="hidden" />
+          <Input {...field} type="hidden" value={field.value ?? ""} />
         </FormControl>
         <Col className="flex-1">
           <Popover>

@@ -9,7 +9,9 @@ import { clsx } from "clsx";
 import { OfferProposalFormSchema } from "@/resources/offers/dtos/offerProposal.dto";
 import SubmitButton from "@/components/ui/form/SubmitButton";
 
-export default function FormWrapper(safeActionFormReturn: ReturnType<typeof useSafeActionForm>) {
+export default function FormWrapper({ title, ...safeActionFormReturn }: ReturnType<typeof useSafeActionForm> & {
+  title: string;
+}) {
   const tMakeAnOffer = useTranslations("offerDetails");
 
   const { isFormSubmitting, form, onSubmit } = safeActionFormReturn;
@@ -26,20 +28,20 @@ export default function FormWrapper(safeActionFormReturn: ReturnType<typeof useS
     });
   }, [headingRef]);
 
-  const { formState: { isValid, isDirty } } = form;
   return (
     <Form {...form} schema={OfferProposalFormSchema}>
       <form onSubmit={onSubmit} className={clsx({
         "form-overlay": isFormSubmitting
       })}>
         <Heading1 ref={headingRef}>
-          {tMakeAnOffer("makeOffer")}
+          {title}
         </Heading1>
         <ContractRangeForm form={form} formType="offerProposal"/>
 
         <FormField
           control={form.control}
           name="message"
+          defaultValue=""
           render={({ field }) => (
             <FormItem className="mt-8">
               <FormLabel>
@@ -60,9 +62,7 @@ export default function FormWrapper(safeActionFormReturn: ReturnType<typeof useS
           {tMakeAnOffer("note")}
         </p>
 
-        <SubmitButton
-          disabled={!isValid || !isDirty}
-          isNew={true}/>
+        <SubmitButton control={form.control} isNew={false}/>
       </form>
     </Form>
   );

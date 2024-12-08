@@ -17,6 +17,7 @@ const UserBaseSchema = z.object({
   postcode: z.string().min(1, "required"),
   addressLine1: z.string().min(1, "required"),
   addressLine2: z.string().min(1, "required"),
+  test: z.string().optional()
 });
 
 export const UserFormSchema = UserBaseSchema;

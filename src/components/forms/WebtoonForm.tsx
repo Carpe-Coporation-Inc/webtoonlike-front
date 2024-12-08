@@ -75,7 +75,6 @@ export function WebtoonForm({ selectableGenres, prev }: {
         form.setValue("thumbPath", remotePath);
       }
     });
-  const { formState: { isValid, isDirty } } = form;
 
   return (
     <Form {...form} schema={WebtoonFormSchema}>
@@ -97,8 +96,7 @@ export function WebtoonForm({ selectableGenres, prev }: {
         <GenderField form={form}/>
         <TargetAgeField form={form}/>
         <AgeLimitField form={form}/>
-        <SubmitButton disabled={!isValid || !isDirty}
-          isNew={!prev}/>
+        <SubmitButton control={form.control} isNew={false}/>
       </form>
     </Form>
   );
@@ -113,6 +111,7 @@ function TitleFieldSet({ form }: {
     <FormField
       control={form.control}
       name="title"
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormLabel>
@@ -133,6 +132,7 @@ function TitleFieldSet({ form }: {
     <FormField
       control={form.control}
       name="title_en"
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormControl>
@@ -158,6 +158,7 @@ function AuthorFieldSet({ form }: {
     <FormField
       control={form.control}
       name="authorName"
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t("authorOptional")}</FormLabel>
@@ -176,6 +177,7 @@ function AuthorFieldSet({ form }: {
     <FormField
       control={form.control}
       name="authorName_en"
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormControl>
@@ -256,6 +258,7 @@ function DescriptionFieldSet({ form }: {
     <FormField
       control={form.control}
       name="description"
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t("seriesIntro")}</FormLabel>
@@ -277,6 +280,7 @@ function DescriptionFieldSet({ form }: {
     <FormField
       control={form.control}
       name="description_en"
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormControl>
@@ -304,6 +308,7 @@ function ExternalLinkField({ form }: {
   return <FormField
     control={form.control}
     name="externalUrl"
+    defaultValue=""
     render={({ field }) => (
       <FormItem>
         <FormLabel>{t("seriesLink")}</FormLabel>
@@ -329,45 +334,36 @@ function GenresField({ form, selectableGenres }: {
   return <FormField
     control={form.control}
     name="genreIds"
-    render={() => (
+    defaultValue={[]}
+    render={({ field }) => (
       <FormItem>
         <FormLabel>{t("selectGenres")}</FormLabel>
         <CheckboxGroup>
           {selectableGenres.map((genre) => (
-            <FormField
-              key={genre.id}
-              control={form.control}
-              name="genreIds"
-              defaultValue={[]}
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value?.includes(genre.id)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            if (field.value.length >= 2) {
-                              return;
-                            }
-                            field.onChange([...field.value, genre.id]);
-                          } else {
-                            field.onChange(
-                              field.value?.filter(
-                                (value) => value !== genre.id
-                              )
-                            );
-                          }
-                        }}
-                      />
-                    </FormControl>
-                    <FormLabel>
-                      {genre.localized.label}
-                    </FormLabel>
-                  </FormItem>
-                );
-              }}
-            />
+            <FormItem key={genre.id}>
+              <FormControl>
+                <Checkbox
+                  checked={field.value?.includes(genre.id)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      if (field.value.length >= 2) {
+                        return;
+                      }
+                      field.onChange([...field.value, genre.id]);
+                    } else {
+                      field.onChange(
+                        field.value?.filter(
+                          (value) => value !== genre.id
+                        )
+                      );
+                    }
+                  }}
+                />
+              </FormControl>
+              <FormLabel>
+                {genre.localized.label}
+              </FormLabel>
+            </FormItem>
           ))}
         </CheckboxGroup>
         <FormMessage/>
@@ -422,40 +418,31 @@ function TargetAgeField({ form }: {
   return <FormField
     control={form.control}
     name="targetAges"
-    render={() => (
+    defaultValue={[]}
+    render={({ field }) => (
       <FormItem>
         <FormLabel>{t("targetAge")}</FormLabel>
         <CheckboxGroup>
           {Object.values(TargetAge).map((item, index) => (
-            <FormField
-              key={index}
-              control={form.control}
-              name="targetAges"
-              defaultValue={[]}
-              render={({ field }) => {
-                return (
-                  <FormItem className="flex flex-row items-center gap-1.5">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value?.includes(item)}
-                        onCheckedChange={(checked) => {
-                          return checked
-                            ? field.onChange([...field.value, item])
-                            : field.onChange(
-                              field.value?.filter(
-                                (value) => value !== item
-                              )
-                            );
-                        }}
-                      />
-                    </FormControl>
-                    <FormLabel>
-                      {tTargetAge(item)}
-                    </FormLabel>
-                  </FormItem>
-                );
-              }}
-            />
+            <FormItem key={index} className="flex flex-row items-center gap-1.5">
+              <FormControl>
+                <Checkbox
+                  checked={field.value?.includes(item)}
+                  onCheckedChange={(checked) => {
+                    return checked
+                      ? field.onChange([...field.value, item])
+                      : field.onChange(
+                        field.value?.filter(
+                          (value) => value !== item
+                        )
+                      );
+                  }}
+                />
+              </FormControl>
+              <FormLabel>
+                {tTargetAge(item)}
+              </FormLabel>
+            </FormItem>
           ))}
         </CheckboxGroup>
         <FormMessage/>

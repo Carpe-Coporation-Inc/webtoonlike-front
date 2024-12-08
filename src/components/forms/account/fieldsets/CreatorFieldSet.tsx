@@ -31,7 +31,8 @@ export default function useCreatorFieldSet(form: UseFormReturn<UserAccountWithCr
             <FormLabel>{t("whetherOrNotAffiliated")}</FormLabel>
             <FormControl>
               <Select
-                defaultValue={prevCreator?.isAgencyAffiliated?.toString()}
+                name={field.name}
+                defaultValue={field.value?.toString()}
                 onValueChange={(value) => field.onChange(JSON.parse(value))}
               >
                 <SelectTrigger>
@@ -58,7 +59,8 @@ export default function useCreatorFieldSet(form: UseFormReturn<UserAccountWithCr
             <FormLabel>{t("workExperience")}</FormLabel>
             <FormControl>
               <Select
-                defaultValue={prevCreator?.isExperienced?.toString()}
+                name={field.name}
+                defaultValue={field.value?.toString()}
                 onValueChange={(value) => field.onChange(JSON.parse(value))}
               >
                 <SelectTrigger>
@@ -80,6 +82,7 @@ export default function useCreatorFieldSet(form: UseFormReturn<UserAccountWithCr
       <FormField
         control={form.control}
         name="creator.name"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>{t("username")}</FormLabel>
@@ -98,6 +101,7 @@ export default function useCreatorFieldSet(form: UseFormReturn<UserAccountWithCr
       <FormField
         control={form.control}
         name="creator.name_en"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>{t("usernameInEnglish")}</FormLabel>

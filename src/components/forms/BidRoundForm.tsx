@@ -13,7 +13,7 @@ import {
   Form,
   FormControl, FormField,
   FormItem,
-  FormLabel, FormMessage
+  FormLabel, FormMessage, NumericFormField
 } from "@/shadcn/ui/form";
 import ContractRangeForm, { FormT } from "@/components/forms/ContractRangeForm";
 import { Input } from "@/shadcn/ui/input";
@@ -77,8 +77,6 @@ export default function BidRoundForm({ webtoonId, prev }: {
     name: "isNew"
   });
 
-  const { formState: { isValid, isDirty } } = form;
-
   return (
     <Form {...form} schema={BidRoundFormSchema}>
       <form onSubmit={onSubmit} className={clsx({
@@ -130,9 +128,7 @@ export default function BidRoundForm({ webtoonId, prev }: {
         </FormItem>
 
         {/* 등록 버튼 */}
-        <SubmitButton
-          disabled={!isValid || !isAgreed || !isDirty}
-          isNew={!prev}/>
+        <SubmitButton control={form.control} isNew={false} disabled={!isAgreed}/>
       </form>
     </Form>
   );
@@ -146,7 +142,7 @@ function IsNewField({ form }: {
   return (
     <FormField
       control={form.control}
-      name={"isNew"}
+      name="isNew"
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t("seriesType")}</FormLabel>
@@ -181,18 +177,14 @@ function EpisodeCountFieldSet({ form }: {
     <fieldset>
       <Label>{t("serviceEpisodeInformation")}</Label>
       <Row className="gap-4">
-        <FormField
-          control={form.control}
+        <NumericFormField
+          register={form.register}
           name="currentEpisodeNo"
           render={({ field }) => {
-            const registeredField = form.register(field.name, {
-              setValueAs: (rawInput: string) => parseInt(rawInput) || null
-            });
             return <FormItem forcedIsInline={true}>
               <FormControl>
                 <Input
                   {...field}
-                  {...registeredField}
                   className="w-fit p-1 text-right"
                   maxLength={4}
                   size={4}
@@ -205,18 +197,14 @@ function EpisodeCountFieldSet({ form }: {
             </FormItem>;
           }} />
 
-        <FormField
-          control={form.control}
+        <NumericFormField
+          register={form.register}
           name="totalEpisodeCount"
           render={({ field }) => {
-            const registeredField = form.register(field.name, {
-              setValueAs: (rawInput: string) => parseInt(rawInput) || null
-            });
             return <FormItem forcedIsInline={true}>
               <FormControl>
                 <Input
                   {...field}
-                  {...registeredField}
                   className="w-fit p-1 text-right"
                   maxLength={4}
                   size={4}
@@ -245,18 +233,14 @@ function MonthlyCountFieldSet({ form }: {
     <fieldset>
       <Label>{t("monthlyProductionAvailableRounds")}</Label>
 
-      <FormField
-        control={form.control}
+      <NumericFormField
+        register={form.register}
         name="monthlyEpisodeCount"
         render={({ field }) => {
-          const registeredField = form.register(field.name, {
-            setValueAs: (rawInput: string) => parseInt(rawInput) || null
-          });
           return <FormItem forcedIsInline={true}>
             <FormControl>
               <Input
                 {...field}
-                {...registeredField}
                 className="w-fit p-1 text-right"
                 maxLength={4}
                 size={4}
@@ -280,18 +264,14 @@ function FinishedFieldSet({ form }: {
   return (
     <fieldset>
       <Label>{t("serviceEpisodeInformation")}</Label>
-      <FormField
-        control={form.control}
+      <NumericFormField
+        register={form.register}
         name="totalEpisodeCount"
         render={({ field }) => {
-          const registeredField = form.register(field.name, {
-            setValueAs: (rawInput: string) => parseInt(rawInput) || null
-          });
           return <FormItem forcedIsInline={true}>
             <FormControl>
               <Input
                 {...field}
-                {...registeredField}
                 className="w-fit p-1 text-right"
                 maxLength={4}
                 size={4}
@@ -313,7 +293,7 @@ function OriginalityField({ form }: {
   const t = useTranslations("bidRoundDetails");
   return <FormField
     control={form.control}
-    name={"isOriginal"}
+    name="isOriginal"
     render={({ field }) => (
       <FormItem>
         <FormLabel>{t("serviceOnOtherPlatforms")}</FormLabel>

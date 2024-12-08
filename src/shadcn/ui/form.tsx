@@ -7,7 +7,7 @@ import {
   FieldPath, FieldPathValue,
   FieldValues,
   FormProvider, FormProviderProps,
-  useFormContext,
+  useFormContext, UseFormRegister, UseFormRegisterReturn,
 } from "react-hook-form";
 
 import { cn } from "@/shadcn/lib/utils";
@@ -233,6 +233,73 @@ export const FormMessage = React.forwardRef<
 });
 FormMessage.displayName = "FormMessage";
 
+// 여기서부터 커스텀
 export type FieldNameRestricted<TFieldValues extends FieldValues, AllowedFieldType> = {
   [K in FieldPath<TFieldValues>]: FieldPathValue<TFieldValues, K> extends AllowedFieldType ? K : never;
 }[FieldPath<TFieldValues>];
+
+type CustomFormFieldProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+> = {
+  name: TName;
+  register: UseFormRegister<TFieldValues>;
+  defaultValue?: FieldPathValue<TFieldValues, TName>;
+  render: ({
+    field,
+  }: {
+    field: UseFormRegisterReturn<TName> & {
+      value: string;
+    };
+  }) => React.ReactElement;
+};
+
+export const NumericFormField = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>(props: CustomFormFieldProps<TFieldValues, TName>) => {
+  return (
+    <FormFieldContext.Provider value={{ name: props.name }}>
+      <NumericController {...props} />
+    </FormFieldContext.Provider>
+  );
+};
+
+const NumericController = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(
+  props: CustomFormFieldProps<TFieldValues, TName>,
+) => props.render(useNumericController<TFieldValues, TName>(props));
+
+function useNumericController<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(props: CustomFormFieldProps<TFieldValues, TName>) {
+  const { name, register, defaultValue } = props;
+  const [displayValue, setDisplayValue] = React.useState<string>(defaultValue
+    ? defaultValue.toString() : "");
+  const field = React.useMemo(() => register(name, {
+    setValueAs: (rawInput: string) => {
+      if (!rawInput) {
+        setDisplayValue("");
+        return undefined;
+      }
+      const value = parseInt(rawInput);
+      if (!Number.isNaN(value)) {
+        setDisplayValue(value.toString());
+        return value;
+      }
+    }
+  }), [name, register]);
+
+  return React.useMemo(
+    () => ({
+      field: {
+        ...field,
+        value: displayValue,
+      }
+    }),
+    [field, displayValue],
+  );
+}

@@ -6,9 +6,8 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
-// todo isDirty 설정
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, value, ...props }, ref) => {
+  ({ className, type, ...props }, ref) => {
     return (
       <input
         type={type}
@@ -17,7 +16,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className
         )}
         ref={ref}
-        value={value ?? ""}
         {...props}
       />
     );

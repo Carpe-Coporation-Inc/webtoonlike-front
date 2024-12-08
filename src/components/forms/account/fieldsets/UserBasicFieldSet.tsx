@@ -11,6 +11,7 @@ export default function UserBasicFieldSet({ form }: {
     <FormField
       control={form.control}
       name="name"
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t("name")}</FormLabel>
@@ -30,6 +31,7 @@ export default function UserBasicFieldSet({ form }: {
     <FormField
       control={form.control}
       name="phone"
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormLabel>{t("phone")}</FormLabel>

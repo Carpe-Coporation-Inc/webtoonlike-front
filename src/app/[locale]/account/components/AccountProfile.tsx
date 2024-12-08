@@ -1,19 +1,19 @@
 "use client";
 import Image from "next/image";
 import { Col, Row } from "@/components/ui/common";
-import { ReactNode } from "react";
+import { ComponentProps } from "react";
 import { useClerk, useUser } from "@clerk/nextjs";
+import { clsx } from "clsx";
 
-export default function AccountProfile({ allowEdit, children }: {
+export default function AccountProfile({ allowEdit, className, children, ...props }: ComponentProps<typeof Row> & {
   allowEdit?: boolean;
-  children?: ReactNode;
 }) {
   const clerk = useClerk();
   const { user } = useUser();
   if (!user) {
     return null;
   }
-  return <Row className="gap-12">
+  return <Row className={clsx("gap-12", className)} {...props}>
     <div>
       <Image
         src={user.imageUrl}

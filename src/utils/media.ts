@@ -60,7 +60,7 @@ export class ImageObject {
     if (fileOrPath instanceof File) {
       this.url = URL.createObjectURL(fileOrPath);
       this.displayUrl = fileOrPath.name;
-    } else if (typeof fileOrPath === "string") {
+    } else if (typeof fileOrPath === "string" && fileOrPath) {
       this.url = buildImgUrl(fileOrPath, { size: displaySize });
       this.displayUrl = fileOrPath;
     }

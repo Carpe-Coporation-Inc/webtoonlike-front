@@ -34,28 +34,28 @@ export default function useAccountFormImage<TFieldValues extends FieldValues>({ 
       <FormField
         control={form.control}
         name={name}
-        render={() => {
-          return (
-            <FormItem>
-              <FormLabel>{label}</FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  accept="image/jpeg, image/png"
-                  className="hidden"
-                  onChange={(event) => {
-                    const imageData = new ImageObject(event.target.files?.[0]);
-                    setImage(imageData);
-                    form.setValue(name, "filedAdded" as FieldPathValue<TFieldValues, typeof name>, {
-                      shouldDirty: true
-                    });
-                  }}
-                  ref={fileInputRef}
-                />
-              </FormControl>
-            </FormItem>
-          );
+        defaultValue={"" as FieldPathValue<TFieldValues, typeof name>}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{label}</FormLabel>
+            <FormControl>
+              <Input {...field} type="hidden" />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+      <Input
+        type="file"
+        accept="image/jpeg, image/png"
+        className="hidden"
+        onChange={(event) => {
+          const imageData = new ImageObject(event.target.files?.[0]);
+          setImage(imageData);
+          form.setValue(name, "filedAdded" as FieldPathValue<TFieldValues, typeof name>, {
+            shouldDirty: true
+          });
         }}
+        ref={fileInputRef}
       />
       <div className="flex h-10 w-full cursor-pointer"
         onClick={() => fileInputRef.current?.click()}>

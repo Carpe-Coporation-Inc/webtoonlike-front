@@ -8,6 +8,7 @@ import { createOfferProposal } from "@/resources/offers/controllers/offerProposa
 import FormWrapper from "@/components/forms/offer/FormWrapper";
 import OfferDetailsContext from "@/app/[locale]/offers/OfferDetailsContext";
 import { useContext } from "react";
+import { useTranslations } from "next-intl";
 
 export default function OfferProposalForm({ offerId, refOfferProposalId }: {
   offerId: number;
@@ -15,6 +16,7 @@ export default function OfferProposalForm({ offerId, refOfferProposalId }: {
 }) {
   const { toast } = useToast();
   const { reloadProposals } = useContext(OfferDetailsContext);
+  const t = useTranslations("offerDetails");
   const safeActionFormReturn = useSafeActionForm(
     createOfferProposal.bind(null, offerId, refOfferProposalId),
     {
@@ -23,7 +25,7 @@ export default function OfferProposalForm({ offerId, refOfferProposalId }: {
       actionProps: {
         onSuccess: () => {
           toast({
-            description: "수정 제안을 보냈습니다."
+            description: t("makeOfferProposalToast")
           });
           reloadProposals({
             refocusToLast: true
@@ -36,5 +38,7 @@ export default function OfferProposalForm({ offerId, refOfferProposalId }: {
         }
       }
     });
-  return <FormWrapper {...safeActionFormReturn}/>;
+  return <div className="bg-muted p-5 rounded-[10px]">
+    <FormWrapper title={t("makeOfferProposal")} {...safeActionFormReturn}/>
+  </div>;
 }

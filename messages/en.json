@@ -22,7 +22,7 @@
         "basicInfo": "Basic",
         "address": "Address",
         "creator": "Creator",
-        "buyer":  "Buyer"
+        "buyer": "Buyer"
     },
     "setupPage": {
         "setupAccount": "Set Up Account",
@@ -111,35 +111,34 @@
     },
     "offerDetails": {
         "makeOffer": "Make an Offer",
+        "makeOfferToast": "Your offer has been sent.",
+        "makeOfferProposal": "Propose Changes",
+        "makeOfferProposalToast": "Your proposal has been sent.",
         "additionalMessage": "Additional Message",
         "inputAdditionalRequirements": "Please enter additional requirements",
         "note": "*If you provide an alternative contact method, such as a phone number or social media account, it may limit your access to Webtoons.",
         "offerProposalDetails": "Proposal Details",
         "agreedTerms": "Agreed Terms",
-        "offerer": "Offerer",
-        "thereIsNoMessageWrittenByTheBuyer": "There is no message written by the buyer."
-    },
-    "offerControls": {
-        "decline": {
-            "actionButton": "Decline",
-            "alertTitle": "Decline proposal?",
-            "alertMessage": "Will you decline the proposal?",
-            "confirm": "Decline",
-            "toast": "The negotiation has been aborted."
-        },
-        "accept": {
-            "actionButton": "Accept",
-            "alertTitle": "Accept proposal?",
-            "alertMessage": "Will you accept the proposal?",
-            "confirm": "Accept",
-            "toast": "The negotiation has been concluded."
-        },
-        "message": {
-            "actionButton": "Send Message",
-            "dialogTitle": "Send a message",
-            "placeholder": "Write a message",
-            "confirm": "Send",
-            "toast": "The message has been sent."
+        "sender": "Sender",
+        "thereIsNoMessageWrittenByTheBuyer": "There is no message written by the buyer.",
+        "controls": {
+            "decline": {
+                "actionButton": "Decline",
+                "alertTitle": "Decline proposal?",
+                "alertMessage": "Will you decline the proposal?",
+                "confirm": "Decline",
+                "toast": "The negotiation has been aborted."
+            },
+            "accept": {
+                "actionButton": "Accept",
+                "alertTitle": "Accept proposal?",
+                "alertMessage": "Will you accept the proposal?",
+                "confirm": "Accept",
+                "toast": "The negotiation has been concluded."
+            },
+            "propose": {
+                "actionButton": "Propose Changes"
+            }
         }
     },
     "typeBusinessRight": {

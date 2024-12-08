@@ -16,6 +16,7 @@ import { BidRoundFormT, ContractRangeItemSchema, ContractRangeItemT } from "@/re
 import { FormControl, FormField, FormItem } from "@/shadcn/ui/form";
 import { Input } from "@/shadcn/ui/input";
 import { OfferProposalFormT } from "@/resources/offers/dtos/offerProposal.dto";
+import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
 
 export type FormT = BidRoundFormT | OfferProposalFormT;
 
@@ -47,7 +48,7 @@ export default function ContractRangeForm({ form, formType }: {
       </Row>
       <Table className="mt-3 table-fixed [&_th]:text-center [&_td]:text-center">
         <TableHeader>
-          <TableRow className="bg-gray-dark">
+          <TableRow className="bg-gray-dark hover:bg-gray-dark">
             <TableHead>
               {t("typeOfBusinessRight")}
             </TableHead>
@@ -72,23 +73,60 @@ export default function ContractRangeForm({ form, formType }: {
         </TableHeader>
         <TableBody>
           {contractRange && contractRange.map((row, idx) => (
-            <TableRow key={idx}>
-              <BusinessRightCell form={form} row={row} idx={idx} />
-              <BusinessFieldCell form={form} row={row} idx={idx} />
-              <ExclusiveCell form={form} idx={idx} />
-              <CountryCell form={form} idx={idx} />
-
-              {formType === "offerProposal"
-              // 오퍼 폼일 때만 사용하는 컬럼
-              && <ContractConditionCell form={form as UseFormReturn<OfferProposalFormT>} idx={idx} />}
-
-              <DeleteCell form={form} idx={idx} />
-            </TableRow>
+            <TableRowWrapper
+              key={idx}
+              form={form}
+              row={row}
+              idx={idx}
+              formType={formType}
+            />
           ))}
         </TableBody>
       </Table>
     </div>
   );
+}
+
+enum BusinessRightType {
+  Webtoons = "WEBTOONS",
+  Secondary = "SECONDARY",
+}
+type BusinessRightContextValue = {
+  businessRight: BusinessRightType | undefined;
+  setBusinessRight: Dispatch<SetStateAction<BusinessRightType | undefined>>;
+};
+const BusinessRightContext = createContext<BusinessRightContextValue>(
+  {} as BusinessRightContextValue
+);
+function TableRowWrapper({ form, row, idx, formType }: {
+  form: UseFormReturn<FormT>;
+  row: ContractRangeItemT;
+  formType: "bidRound" | "offerProposal";
+  idx: number;
+}) {
+  let defaultBusinessRight: BusinessRightType | undefined;
+  if (row.businessField === "WEBTOONS") {
+    defaultBusinessRight = BusinessRightType.Webtoons;
+  } else if (row.businessField) {
+    defaultBusinessRight = BusinessRightType.Secondary;
+  }
+  const [businessRight, setBusinessRight] = useState<BusinessRightType | undefined>(defaultBusinessRight);
+  return <TableRow>
+    <BusinessRightContext.Provider value={{
+      businessRight, setBusinessRight
+    }}>
+      <BusinessRightCell form={form} row={row} idx={idx} />
+      <BusinessFieldCell form={form} idx={idx} />
+      <ExclusiveCell form={form} idx={idx} />
+      <CountryCell form={form} idx={idx} />
+
+      {formType === "offerProposal"
+              // 오퍼 폼일 때만 사용하는 컬럼
+              && <ContractConditionCell form={form as UseFormReturn<OfferProposalFormT>} idx={idx} />}
+
+      <DeleteCell form={form} idx={idx} />
+    </BusinessRightContext.Provider>
+  </TableRow>;
 }
 
 function BusinessRightCell({ form, row, idx }: {
@@ -99,27 +137,22 @@ function BusinessRightCell({ form, row, idx }: {
   const t = useTranslations("contractRangeDataForm");
   const items = [
     {
-      value: "webtoons",
+      value: BusinessRightType.Webtoons,
       label: t("webtoonSerialRights"),
     },
     {
-      value: "secondary",
+      value: BusinessRightType.Secondary,
       label: t("secondBusinessRight"),
     }
   ];
-
-  let defaultValue;
-  if (row.businessField === "WEBTOONS") {
-    defaultValue = items[0].value;
-  } else if (row.businessField) {
-    defaultValue = items[1].value;
-  }
+  const { businessRight, setBusinessRight } = useContext(BusinessRightContext);
 
   return <TableCell>
     <Select
-      defaultValue={defaultValue}
+      defaultValue={businessRight}
       onValueChange={(value) => {
-        if (value === items[0].value) {
+        setBusinessRight(value as BusinessRightType);
+        if (value === BusinessRightType.Webtoons) {
           form.setValue(`contractRange.${idx}.businessField`, "WEBTOONS", {
             shouldValidate: true
           });
@@ -131,7 +164,6 @@ function BusinessRightCell({ form, row, idx }: {
       }}
     >
       <SelectTrigger>
-        {/* todo placeholder 명시적으로 드러나지 않음*/}
         <SelectValue placeholder={t("selectTypeOfBusinessRight")} />
       </SelectTrigger>
       <SelectContent>
@@ -145,14 +177,14 @@ function BusinessRightCell({ form, row, idx }: {
   </TableCell>;
 }
 
-function BusinessFieldCell({ form, row, idx }: {
+function BusinessFieldCell({ form, idx }: {
   form: UseFormReturn<FormT>;
-  row: ContractRangeItemT;
   idx: number;
 }) {
   const t = useTranslations("contractRangeDataForm");
   const tBusinessFields = useTranslations("businessFields");
-  if (row.businessField === "WEBTOONS") {
+  const { businessRight } = useContext(BusinessRightContext);
+  if (businessRight !== BusinessRightType.Secondary) {
     return <TableCell>
       -
     </TableCell>;
@@ -165,6 +197,7 @@ function BusinessFieldCell({ form, row, idx }: {
         <FormItem>
           <FormControl>
             <Select
+              name={field.name}
               defaultValue={field.value}
               onValueChange={field.onChange}
             >
@@ -204,6 +237,7 @@ function ExclusiveCell({ form, idx }: {
         <FormItem>
           <FormControl>
             <Select
+              name={field.name}
               defaultValue={field.value}
               onValueChange={field.onChange}
             >
@@ -243,6 +277,7 @@ function CountryCell({ form, idx }: {
         <FormItem>
           <FormControl>
             <Select
+              name={field.name}
               defaultValue={field.value}
               onValueChange={field.onChange}
             >
@@ -277,12 +312,12 @@ function ContractConditionCell({ form, idx }: {
     <FormField
       control={form.control}
       name={`contractRange.${idx}.message`}
+      defaultValue=""
       render={({ field }) => (
         <FormItem>
           <FormControl>
             <Input
               {...field}
-              value={field.value || ""}
               type="text"
               placeholder={t("contractConditionDesc")}
             />

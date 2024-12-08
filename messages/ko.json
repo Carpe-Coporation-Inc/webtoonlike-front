@@ -111,35 +111,34 @@
     },
     "offerDetails": {
         "makeOffer": "오퍼하기",
+        "makeOfferToast": "오퍼를 보냈습니다.",
+        "makeOfferProposal": "수정 제안하기",
+        "makeOfferProposalToast": "수정 제안을 보냈습니다.",
         "additionalMessage": "추가 메시지",
         "inputAdditionalRequirements": "추가 요구사항을 입력해 주세요",
         "note": "*전화번호, SNS계정 등 별도 연락수단을 기재할 경우 Kipstock 이용이 제한될 수 있습니다.",
         "offerProposalDetails": "제안 상세",
         "agreedTerms": "합의 내용",
-        "offerer": "보낸 사람",
-        "thereIsNoMessageWrittenByTheBuyer": "바이어가 작성한 메시지가 없습니다."
-    },
-    "offerControls": {
-        "decline": {
-            "actionButton": "거절하기",
-            "alertTitle": "제안 거절",
-            "alertMessage": "제안을 거절하시겠습니까?",
-            "confirm": "거절",
-            "toast": "협상이 중단되었습니다."
-        },
-        "accept": {
-            "actionButton": "수락하기",
-            "alertTitle": "제안 수락",
-            "alertMessage": "제안을 수락하시겠습니까?",
-            "confirm": "수락",
-            "toast": "계약이 성사되었습니다."
-        },
-        "message": {
-            "actionButton": "협의 요청",
-            "dialogTitle": "메시지 보내기",
-            "placeholder": "메시지를 작성하세요.",
-            "confirm": "전송",
-            "toast": "메시지를 전송했습니다."
+        "sender": "보낸 사람",
+        "thereIsNoMessageWrittenByTheBuyer": "바이어가 작성한 메시지가 없습니다.",
+        "controls": {
+            "decline": {
+                "actionButton": "거절하기",
+                "alertTitle": "제안 거절",
+                "alertMessage": "제안을 거절하시겠습니까?",
+                "confirm": "거절",
+                "toast": "협상이 중단되었습니다."
+            },
+            "accept": {
+                "actionButton": "수락하기",
+                "alertTitle": "제안 수락",
+                "alertMessage": "제안을 수락하시겠습니까?",
+                "confirm": "수락",
+                "toast": "계약이 성사되었습니다."
+            },
+            "propose": {
+                "actionButton": "협의 요청"
+            }
         }
     },
     "typeBusinessRight": {

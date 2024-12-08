@@ -30,8 +30,6 @@ export default function AccountUpdateForm({ prev }: {
   }
 }
 
-// todo 사진만 바꾸어도 isDirty 확보
-
 function CreatorForm({ formData }: {
   formData: UserAccountWithCreatorFormT;
 }) {
@@ -58,7 +56,6 @@ function CreatorForm({ formData }: {
         await creatorFieldSet.beforeSubmission();
       }
     });
-  const { formState: { isValid, isDirty } } = form;
 
   const creatorFieldSet = useCreatorFieldSet(form);
   return <Form {...form} schema={UserAccountWithCreatorFormSchema}>
@@ -79,8 +76,7 @@ function CreatorForm({ formData }: {
       <FieldSetWrapper title={t("creator")}>
         {creatorFieldSet.element}
       </FieldSetWrapper>
-      <SubmitButton disabled={!isValid || !isDirty}
-        isNew={false}/>
+      <SubmitButton control={form.control} isNew={false}/>
     </form>
   </Form>;
 }
@@ -112,7 +108,6 @@ function BuyerForm({ formData }: {
         await buyerFieldSet.beforeSubmission();
       }
     });
-  const { formState: { isValid, isDirty } } = form;
 
   const buyerFieldSet = useBuyerFieldSet(form);
   return <Form {...form} schema={UserAccountWithBuyerFormSchema}>
@@ -133,8 +128,7 @@ function BuyerForm({ formData }: {
       <FieldSetWrapper title={t("buyer")}>
         {buyerFieldSet.element}
       </FieldSetWrapper>
-      <SubmitButton disabled={!isValid || !isDirty}
-        isNew={false}/>
+      <SubmitButton control={form.control} isNew={false}/>
     </form>
   </Form>;
 }

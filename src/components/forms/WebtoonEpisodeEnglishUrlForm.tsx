@@ -48,6 +48,7 @@ export default function WebtoonEpisodeEnglishUrlForm({ episode }:{
       <FormField
         control={form.control}
         name="englishUrl"
+        defaultValue=""
         render={({ field }) => (
           <FormItem>
             <FormLabel>

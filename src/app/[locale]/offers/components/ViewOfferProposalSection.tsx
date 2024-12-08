@@ -30,7 +30,7 @@ export default function ViewOfferProposalSection({ offerProposalId }: {
     return <Spinner />;
   }
   return <Col className="bg-box p-5 rounded-[10px]">
-    <Heading2>{tMakeAnOffer("offerer")}</Heading2>
+    <Heading2>{tMakeAnOffer("sender")}</Heading2>
     <Profile creatorOrBuyer={offerProposal.sender}/>
     <HR />
     <OfferProposalDetails

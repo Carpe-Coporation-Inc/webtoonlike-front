@@ -18,7 +18,6 @@ import useAccountFormImage from "@/components/forms/account/components/AccountFo
 
 
 export default function useBuyerFieldSet(form: UseFormReturn<UserAccountWithBuyerFormT>) {
-  // 번역
   const thumbnail = useAccountFormImage({
     form,
     name: "buyer.thumbPath",
@@ -98,6 +97,7 @@ function BusinessNumberField({ form }: {
   return <FormField
     control={form.control}
     name={registeredField.name}
+    defaultValue=""
     render={({ field }) => {
       return <FormItem>
         <FormLabel>{t("businessRegNo")}</FormLabel>
@@ -130,8 +130,9 @@ function BusinessFieldField({ form }: {
   return <FormField
     control={form.control}
     name="buyer.businessField"
+    defaultValue={[]}
     render={({ field }) => {
-      const preSelectOptions = options.filter(option => field.value?.includes(option.value));
+      const preSelectOptions = options.filter(option => field.value.includes(option.value));
       return <FormItem>
         <FormLabel>{t("businessField")}</FormLabel>
         <FormControl>
@@ -170,8 +171,9 @@ function BusinessTypeField({ form }: {
   return <FormField
     control={form.control}
     name="buyer.businessType"
+    defaultValue={[]}
     render={({ field }) => {
-      const preSelectOptions = options.filter(option => field.value?.includes(option.value));
+      const preSelectOptions = options.filter(option => field.value.includes(option.value));
       return <FormItem>
         <FormLabel>{t("businessType")}</FormLabel>
         <FormControl>
@@ -206,6 +208,7 @@ function BusinessNameField({ form }: {
   return <FormField
     control={form.control}
     name="buyer.name"
+    defaultValue=""
     render={({ field }) => (
       <FormItem>
         <FormLabel>{t("companyName")}</FormLabel>
@@ -230,6 +233,7 @@ function DepartmentField({ form }: {
   return <FormField
     control={form.control}
     name="buyer.department"
+    defaultValue=""
     render={({ field }) => (
       <FormItem>
         <FormLabel>{t("businessUnit")}</FormLabel>
@@ -253,6 +257,7 @@ function PositionField({ form }: {
   return <FormField
     control={form.control}
     name="buyer.position"
+    defaultValue=""
     render={({ field }) => (
       <FormItem>
         <FormLabel>{t("businessPosition")}</FormLabel>
@@ -277,6 +282,7 @@ function RoleField({ form }: {
   return <FormField
     control={form.control}
     name="buyer.role"
+    defaultValue=""
     render={({ field }) => (
       <FormItem>
         <FormLabel>{t("inChargeOf")}</FormLabel>
@@ -305,9 +311,10 @@ function PurposeField({ form }: {
       <FormItem>
         <FormLabel>{t("purposeLabel")}</FormLabel>
         <FormControl>
-          <Select defaultValue={field?.value ?? ""}
-            onValueChange={field.onChange}
+          <Select
             name={field.name}
+            defaultValue={field.value}
+            onValueChange={field.onChange}
           >
             <SelectTrigger>
               <SelectValue placeholder={t("purposePlaceholder")}/>
