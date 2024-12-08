@@ -17,9 +17,7 @@ class CreatorService {
     });
     const record = await prisma.creator.findUniqueOrThrow({
       where: {
-        userId,
-        // isExposed: true,
-        //   todo
+        userId
       },
       select: {
         name: true,

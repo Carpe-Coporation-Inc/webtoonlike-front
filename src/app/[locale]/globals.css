@@ -106,7 +106,6 @@
 
 @layer utilities {
     .form-overlay {
-        /*todo focus*/
         @apply relative before:absolute before:w-full before:h-full before:z-[10] before:pointer-events-auto before:inset-0 [&_*]:pointer-events-none [&_*]:opacity-80;
     }
     .clickable {

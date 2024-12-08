@@ -8,7 +8,6 @@ import {
 } from "@/resources/webtoons/dtos/webtoon.dto";
 import webtoonPreviewHelper from "@/resources/webtoons/helpers/webtoonPreview.helper";
 
-// TODO semi-graphql
 class WebtoonHelper {
   mapToDTO = (r: WebtoonRecord, locale: string): WebtoonT => {
     return {

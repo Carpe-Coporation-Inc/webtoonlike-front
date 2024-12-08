@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import z from "zod";
 import ErrorPage from "@/components/shared/ErrorPage";
 
-// todo 특수 에러의 경우 특수 처리
 export default function Error({
   error,
 }: {

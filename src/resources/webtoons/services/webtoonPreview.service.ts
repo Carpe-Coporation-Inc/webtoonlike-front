@@ -76,8 +76,6 @@ class WebtoonPreviewService {
       userId
     };
 
-    // TODO 오퍼 가능 기간이 끝나면?
-
     const limit = 10;
     const [records, totalRecords] = await prisma.$transaction([
       prisma.webtoonLike.findMany({
