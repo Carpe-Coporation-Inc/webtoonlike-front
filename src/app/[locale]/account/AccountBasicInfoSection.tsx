@@ -11,7 +11,7 @@ import LikeBadge from "@/components/ui/LikeBadge";
 import AccountProfile from "@/app/[locale]/account/components/AccountProfile";
 
 export default async function AccountBasicInfoSection() {
-  const TeditProfile = await getTranslations("accountPage");
+  const tEditProfile = await getTranslations("accountPage");
   const { metadata } = await getTokenInfo();
   const likeCountResponse = metadata.type === UserTypeT.Creator
     ? await getMyLikeCount().then(serverResponseHandler)
@@ -23,7 +23,7 @@ export default async function AccountBasicInfoSection() {
             && <LikeBadge likeCount={likeCountResponse.likeCount}/>}
         <Button variant="secondary" asChild>
           <Link href="/account/update">
-            {TeditProfile("editProfile")}
+            {tEditProfile("editProfile")}
           </Link>
         </Button>
       </Row>

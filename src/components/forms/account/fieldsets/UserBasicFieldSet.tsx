@@ -7,7 +7,7 @@ export default function UserBasicFieldSet({ form }: {
   form: AccountFormType;
 }) {
   const t = useTranslations("setupForm");
-  return <fieldset>
+  return <fieldset className="contents">
     <FormField
       control={form.control}
       name="name"

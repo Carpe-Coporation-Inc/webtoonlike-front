@@ -120,9 +120,9 @@ function UserItem({ user, onAddAdmin }: { user: NonAdminUserSearchT; onAddAdmin:
       value={user.id.toString()}
       onSelect={confirm.open}
     >
-      <div className="w-full overflow-ellipsis">
+      <div className="w-full">
         <div className="whitespace-pre flex">
-          <span className="overflow-ellipsis overflow-hidden font-semibold">
+          <span className="truncate font-semibold">
             {user.name}
           </span>
           <Badge className="ml-2 whitespace-pre text-white"
@@ -130,7 +130,7 @@ function UserItem({ user, onAddAdmin }: { user: NonAdminUserSearchT; onAddAdmin:
             {tUserType(user.userType)}
           </Badge>
         </div>
-        <div className="overflow-ellipsis overflow-hidden text-gray-shade">
+        <div className="truncate text-gray-shade">
           {user.email}
         </div>
       </div>

@@ -239,7 +239,8 @@
         "myLikes": {
             "myLikedWebtoons": "좋아요 표시한 웹툰",
             "noLikedWebtoons": "좋아요 표시한 웹툰이 없습니다."
-        }
+        },
+        "accountSettings": "계정 설정"
     },
     "buyerInfoPage": {
         "headerDesc": "사업자 정보 및 재직 정보를 입력해 주세요",

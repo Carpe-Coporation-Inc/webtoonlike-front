@@ -11,7 +11,7 @@ export default function UserAddressFieldSet({ form }: {
   const t = useTranslations("setupForm");
   const tCountries = useTranslations("countries");
 
-  return <fieldset>
+  return <fieldset className="contents">
     <div className="flex flex-row justify-between gap-2">
       <FormField
         control={form.control}

@@ -78,7 +78,7 @@ export function WebtoonForm({ selectableGenres, prev }: {
 
   return (
     <Form {...form} schema={WebtoonFormSchema}>
-      <form onSubmit={onSubmit} className={clsx("w-[600px] mx-auto space-y-8",
+      <form onSubmit={onSubmit} className={clsx("max-w-[600px] w-full mx-auto space-y-8",
         "[&_fieldset]:flex [&_fieldset]:flex-col [&_fieldset]:gap-3",
         {
           "form-overlay": isFormSubmitting

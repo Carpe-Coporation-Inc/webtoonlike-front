@@ -34,7 +34,7 @@ export default function EpisodeImageItem({
             onCheckedChange={select}
           />
         </FormControl>
-        <FormLabel className="whitespace-pre overflow-ellipsis overflow-hidden">
+        <FormLabel className="truncate">
           {image.displayUrl}
         </FormLabel>
       </FormItem>

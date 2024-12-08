@@ -12,7 +12,7 @@ export default async function UpdateAccount () {
   return (
     <PageLayout>
       <ClerkLoaded>
-        <Col className="w-[800px] mx-auto">
+        <Col className="max-w-[800px] w-full mx-auto">
           <AccountProfile allowEdit={true} />
           <div className="mt-14">
             <AccountUpdateForm prev={userForm} />

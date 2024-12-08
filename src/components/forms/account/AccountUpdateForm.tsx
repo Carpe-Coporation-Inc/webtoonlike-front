@@ -137,10 +137,10 @@ function FieldSetWrapper({ title, children }: {
   title: string;
   children: ReactNode;
 }) {
-  return <div className="flex flex-row gap-2">
+  return <div className="flex flex-row gap-2 w-full">
     <div className="w-40">
       <span className="font-bold text-xl">{title}</span>
     </div>
-    <div className="flex-1">{children}</div>
+    <div className="flex-1 overflow-hidden">{children}</div>
   </div>;
 }

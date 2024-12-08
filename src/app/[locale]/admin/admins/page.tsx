@@ -86,12 +86,12 @@ function TableRow({ admin, reload }:{
   return (
     <ListRow>
       <ListCell>
-        <div className="w-full overflow-ellipsis overflow-hidden">
+        <div className="truncate">
           {admin.user.name}
         </div>
       </ListCell>
       <ListCell>
-        <div className="w-full overflow-ellipsis overflow-hidden">
+        <div className="truncate">
           {admin.user.email}
         </div>
       </ListCell>

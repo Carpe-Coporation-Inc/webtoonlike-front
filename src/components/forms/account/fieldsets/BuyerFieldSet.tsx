@@ -36,7 +36,7 @@ export default function useBuyerFieldSet(form: UseFormReturn<UserAccountWithBuye
 
   const t = useTranslations("buyerInfoPage");
   const element = (
-    <fieldset>
+    <fieldset className="contents">
       <BusinessNumberField form={form}/>
       <BusinessFieldField form={form}/>
       <BusinessTypeField form={form}/>

@@ -68,7 +68,11 @@ export default function WebtoonDetails({ webtoon, context }: WebtoonDetailsProps
           && <Row className="mt-5">
             <IconLink className="flex-shrink-0"/>
             <Link href={webtoon.externalUrl}
-              className="ml-4 text-[#0075FF] hover:text-[#0075FF]/70 underline text-sm">
+              className="ml-4 text-[#0075FF] hover:text-[#0075FF]/70 underline text-sm"
+              style={{
+                overflowWrap: "anywhere"
+              }}
+            >
               {webtoon.externalUrl}
             </Link>
           </Row>}

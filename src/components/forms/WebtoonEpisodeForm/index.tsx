@@ -90,7 +90,7 @@ export default function WebtoonEpisodeForm({
 
   return (
     <Form {...form} schema={WebtoonEpisodeFormSchema}>
-      <form onSubmit={onSubmit} className={clsx("w-[600px] mx-auto space-y-8", {
+      <form onSubmit={onSubmit} className={clsx("max-w-[600px] w-full mx-auto space-y-8", {
         "form-overlay": isFormSubmitting
       })}>
         <FormHeader

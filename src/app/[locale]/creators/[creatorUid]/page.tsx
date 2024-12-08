@@ -23,18 +23,17 @@ export default async function CreatorPage({
 
   return <PageLayout>
     <Row className="gap-12">
-      <Image
-        src={buildImgUrl(creator.thumbPath, {
-          size: "sm",
-          fallback: "user"
-        })}
-        alt="profile_image"
-        style={{ objectFit: "cover" }}
-        className="rounded-full"
-        width={160}
-        height={160}
-      />
-      {/*todo 그림 사이즈 고정*/}
+      <div className="relative w-[135px] h-[135px] rounded-full">
+        <Image
+          src={buildImgUrl(creator.thumbPath, {
+            size: "sm",
+            fallback: "user"
+          })}
+          alt="profile_image"
+          style={{ objectFit: "cover" }}
+          fill={true}
+        />
+      </div>
       <Col className="sm:items-start gap-5">
         <p className="font-bold text-4xl">
           {creator.localized.name}

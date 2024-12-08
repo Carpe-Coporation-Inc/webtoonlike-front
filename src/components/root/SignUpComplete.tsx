@@ -12,7 +12,7 @@ export default async function SignUpComplete() {
 
   return <LightThemeProvider>
     <PageLayout>
-      <div className="w-[400px] mx-auto">
+      <div className="max-w-[400px] w-full mx-auto">
         <Logo lightTheme={true} />
         <Heading1>
           {t("setupAccount")}

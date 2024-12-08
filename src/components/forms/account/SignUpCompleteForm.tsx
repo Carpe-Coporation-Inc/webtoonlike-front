@@ -266,7 +266,7 @@ function RoleFormContent({ safeActionFormReturn, fieldSetElement, schema }: {
       <Form {...form} schema={schema}>
         <form
           onSubmit={onSubmit}
-          className={clsx("flex flex-col gap-8 [&_fieldset]:space-y-5", {
+          className={clsx("[&_fieldset]:space-y-5", {
             "form-overlay": isFormSubmitting
           })}
         >

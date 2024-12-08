@@ -11,7 +11,6 @@ export default function useCreatorFieldSet(form: UseFormReturn<UserAccountWithCr
   // 번역
   const t = useTranslations("setupPageNextForCreators");
 
-  const prevCreator = form.getValues("creator");
   const thumbnail = useAccountFormImage({
     form,
     name: "creator.thumbPath",
@@ -19,10 +18,10 @@ export default function useCreatorFieldSet(form: UseFormReturn<UserAccountWithCr
   });
 
   const element = (
-    <fieldset>
+    <fieldset className="contents">
       <thumbnail.ImageFormField
         placeholder={t("uploadProfilePic")}
-        label={t("profilePic")} />
+        label={t("profilePic")}/>
       <FormField
         control={form.control}
         name="creator.isAgencyAffiliated"

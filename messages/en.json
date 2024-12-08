@@ -239,7 +239,8 @@
         "myLikes": {
             "myLikedWebtoons": "Liked Webtoons",
             "noLikedWebtoons": "No liked webtoons."
-        }
+        },
+        "accountSettings": "Account Settings"
     },
     "buyerInfoPage": {
         "headerDesc": "Enter business information and employment information",

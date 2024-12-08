@@ -60,10 +60,10 @@ export default function useAccountFormImage<TFieldValues extends FieldValues>({ 
       <div className="flex h-10 w-full cursor-pointer"
         onClick={() => fileInputRef.current?.click()}>
         <div
-          className="flex-1 border border-input rounded-l-md bg-background px-3 py-2 ring-offset-background text-muted-foreground text-base md:text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
+          className="flex-grow min-w-0 border border-input rounded-l-md bg-background px-3 py-2 ring-offset-background text-muted-foreground text-base md:text-sm truncate">
           {image?.displayUrl || placeholder}
         </div>
-        <div className="flex border-y border-r border-input rounded-r-md bg-mint text-white items-center px-3 text-sm">
+        <div className="flex flex-shrink-0 border-y border-r border-input rounded-r-md bg-mint text-white items-center px-3 text-sm">
           {tGeneral("selectFile")}
         </div>
       </div>
