@@ -490,19 +490,8 @@
             "message": "Please sign in before proceeding"
         },
         "ForbiddenError": {
-            "adminLevel": {
-                "title": "Insufficient permissions",
-                "message": "Admin permission required.",
-                "superAdminMessage": "Super admin permission required."
-            },
-            "buyersOnly": {
-                "title": "You're not signed in to a buyer account.",
-                "message": "This feature is accessible to buyers only."
-            },
-            "creatorsOnly": {
-                "title": "You're not signed in to a creator account.",
-                "message": "This feature is accessible to creators only."
-            }
+            "title": "Wrong account type",
+            "message": "This feature is accessible to your account."
         },
         "NotFoundError": {
             "title": "Page not found",

@@ -490,19 +490,8 @@
             "message": "로그인 이후 이용하실 수 있습니다."
         },
         "ForbiddenError": {
-            "adminLevel": {
-                "title": "권한 부족",
-                "message": "관리자 권한이 필요합니다.",
-                "superAdminMessage": "수퍼관리자 권한이 필요합니다."
-            },
-            "buyersOnly": {
-                "title": "계정 타입 오류",
-                "message": "바이어 계정만 접근 가능한 기능입니다."
-            },
-            "creatorsOnly": {
-                "title": "계정 타입 오류",
-                "message": "저작권자 계정만 접근 가능한 기능입니다."
-            }
+            "title": "계정 타입 오류",
+            "message": "이 계정으로 접근할 수 없는 기능힙니다."
         },
         "NotFoundError": {
             "title": "접근 불가",

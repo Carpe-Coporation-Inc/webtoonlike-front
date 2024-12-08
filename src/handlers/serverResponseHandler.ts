@@ -7,7 +7,7 @@ export async function serverResponseHandler<S extends Schema | undefined, BAS ex
   result: SafeActionResult<ActionErrorT, S, BAS, CVE, CBAVE, Data> | undefined
 ) {
   if (result?.serverError){
-    throw Error(JSON.stringify(result.serverError));
+    throw new Error(JSON.stringify(result.serverError));
   }
   return result?.data as Data;
 }

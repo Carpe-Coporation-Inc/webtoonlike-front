@@ -78,8 +78,11 @@ export const getTokenInfo = async (allowedRoles?: {
       }
     });
   if (!isAuthorized) {
-    // todo 메시지 번역
-    throw new ForbiddenError();
+    const t = await getTranslations("errors.ForbiddenError");
+    throw new ForbiddenError({
+      title: t("title"),
+      message: t("message")
+    });
   }
   return token;
 };

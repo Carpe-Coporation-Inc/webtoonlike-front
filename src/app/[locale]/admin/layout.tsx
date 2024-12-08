@@ -4,12 +4,20 @@ import LightThemeProvider from "@/providers/LightThemeProvider";
 import AdminSidebar from "@/app/[locale]/admin/AdminSidebar";
 import { getTokenInfo } from "@/resources/tokens/token.service";
 import AdminPageContextProvider from "@/providers/AdminPageContextProvider";
+import { ActionErrorSchema } from "@/handlers/errors";
 
 export default async function Admin({ children }: {
   children: ReactNode;
 }) {
   await getTokenInfo({
     admin: true,
+  }).catch((e) => {
+    const { data } = ActionErrorSchema.safeParse(e);
+    if (data) {
+      throw new Error(JSON.stringify(data));
+    } else {
+      throw e;
+    }
   });
   return (
     <LightThemeProvider>
