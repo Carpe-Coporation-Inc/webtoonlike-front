@@ -12,6 +12,7 @@ import { Toaster } from "@/shadcn/ui/toaster";
 import Alert from "@/components/root/Alert";
 import { updateTokenInfo } from "@/resources/tokens/token.service";
 import SignUpComplete from "@/components/root/SignUpComplete";
+import LayoutContextProvider from "@/providers/LayoutContextProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,15 +39,17 @@ export default async function RootLayout({
       <ClerkProvider localization={locale === "en" ? enUS : koKR}>
         <NextIntlClientProvider messages={messages}>
           <body className={`${inter.className} min-h-screen flex flex-col`}>
-            <Header/>
-            <main className="flex-grow flex">
-              {/*Clerk에 로그인되었으나 DB에 유저 정보가 없는 경우 sign up 마무리시킬 것*/}
-              {(!signUpFinished && signedInToClerk)
-                ? <SignUpComplete/> : children}
-            </main>
-            <Footer/>
-            <Toaster/>
-            <Alert/>
+            <LayoutContextProvider>
+              <Header/>
+              <main className="flex-grow flex">
+                {/*Clerk에 로그인되었으나 DB에 유저 정보가 없는 경우 sign up 마무리시킬 것*/}
+                {(!signUpFinished && signedInToClerk)
+                  ? <SignUpComplete/> : children}
+              </main>
+              <Footer/>
+              <Toaster/>
+              <Alert/>
+            </LayoutContextProvider>
           </body>
         </NextIntlClientProvider>
       </ClerkProvider>

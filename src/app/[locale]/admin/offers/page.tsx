@@ -168,8 +168,8 @@ function OfferItem({ offer }: {
       <ListCell>
         {activeOfferProposal.contractRange.map((item) =>
           item.businessField === "WEBTOONS"
-            ? `${tBusinessFields(item.businessField)}(${tCountries(item.country)})`
-            : `2차(${tBusinessFields(item.businessField)})`
+            ? `${tBusinessFields(item.businessField)}(${tCountries(item.country, { plural: true })})`
+            : `2차(${tBusinessFields(item.businessField, { plural: true })})`
         ).join(", ")}
       </ListCell>
       <ListCell>

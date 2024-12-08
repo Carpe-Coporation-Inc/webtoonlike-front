@@ -119,10 +119,10 @@ export async function convertInvoiceToHtml(content: InvoiceContentT) {
               `
       <div class="row">
         <div class="cell">
-          <p>${tCountries(item.country) || "-"}</p>
+          <p>${tCountries(item.country, { plural: true }) || "-"}</p>
         </div>
         <div class="cell">
-          <p>${tBusinessFields(item.businessField) || "-"}</p>
+          <p>${tBusinessFields(item.businessField, { plural: true }) || "-"}</p>
         </div>
         <div class="cell">
           <p>${tContractType(item.contract) || "-"}</p>

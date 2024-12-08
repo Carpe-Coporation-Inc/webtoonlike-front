@@ -51,7 +51,7 @@ export default function ContractRangeCountries({ bidRound }: {
           .map((code, index) => {
             return <TableRow key={index}>
               <TableCell className="text-center border">
-                {tCountries(code, { plural: "true" })}
+                {tCountries(code, { plural: true })}
               </TableCell>
               <TableCell className="text-center border">
                 <WhetherExclusive

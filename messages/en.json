@@ -65,7 +65,6 @@
         "experienced": "Experienced"
     },
     "homeMain": {
-        "timeLeft": "<hl>{days}</hl> days <hl>{hours}</hl> hours <hl>{minutes}</hl> minutes",
         "numberOfOffers": "<hl>{count}</hl> offers",
         "viewContent": "View Content",
         "recommendedPopularSeries": "Popular",
@@ -121,6 +120,16 @@
         "agreedTerms": "Agreed Terms",
         "sender": "Sender",
         "thereIsNoMessageWrittenByTheBuyer": "There is no message written by the buyer.",
+        "profile": {
+            "seller": "{name} (Seller)",
+            "buyer": "{name} (Buyer)",
+            "phone": "Phone: {phone}",
+            "email": "Email: {email}",
+            "affiliation": {
+                "yes": "Agency affiliated",
+                "no": "Independent"
+            }
+        },
         "controls": {
             "decline": {
                 "actionButton": "Decline",
@@ -164,7 +173,6 @@
         "editEpisode": "Edit Episode",
         "episodeNumber": "Episode Number",
         "episodeNumberPlaceholder": "Please enter the episode number",
-        "episodeThumbnail": "Episode Thumbnail",
         "episodeImage": "Episode Image",
         "preview": "Preview",
         "imageUpload": "Upload Image",
@@ -351,6 +359,21 @@
         "status": "Status",
         "offerSubmittedAt": "Offered at",
         "negotiation": "Negotiation"
+    },
+    "proposalList": {
+        "date": "Date",
+        "sender": {
+            "label": "Sender",
+            "admin": "Admin",
+            "me": "Me"
+        },
+        "proposal": "Proposal",
+        "status": {
+            "label": "Status",
+            "proposed": "Offered",
+            "proposedChanges": "Proposed Changes",
+            "invoiced": "Invoiced"
+        }
     },
     "seriesManagement": {
         "registerOfContentTransactions": "Registrations of Content Transactions",

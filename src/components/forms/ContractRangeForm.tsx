@@ -211,7 +211,7 @@ function BusinessFieldCell({ form, idx }: {
                   .exclude(["WEBTOONS"])
                   .options.map((value) => {
                     return <SelectItem value={value} key={value}>
-                      {tBusinessFields(value)}
+                      {tBusinessFields(value, { plural: true })}
                     </SelectItem>;
                   })}
               </SelectContent>
@@ -267,7 +267,7 @@ function CountryCell({ form, idx }: {
   idx: number;
 }) {
   const t = useTranslations("contractRangeDataForm");
-  const tCountry = useTranslations("countries");
+  const tCountries = useTranslations("countries");
 
   return <TableCell>
     <FormField
@@ -290,7 +290,7 @@ function CountryCell({ form, idx }: {
                 {ContractRangeItemSchema.shape.country
                   .options.map((value) => {
                     return <SelectItem value={value} key={value}>
-                      {tCountry(value)}
+                      {tCountries(value, { plural: true })}
                     </SelectItem>;
                   })}
               </SelectContent>

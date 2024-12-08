@@ -10,6 +10,7 @@ import ViewOfferProposalSection from "@/app/[locale]/offers/components/ViewOffer
 import { ProposalsReloadReq } from "@/app/[locale]/offers/OfferDetailsContext";
 import useSafeAction from "@/hooks/safeAction";
 import { ListCell, ListRow, ListTable, useListExpansionSwitch } from "@/components/ui/ListTable";
+import useScrollToTop from "@/hooks/scrollToTop";
 
 // TODO 페이지네이션 없음
 export default function OfferProposalList({ offerId, reloadReq }: {
@@ -74,7 +75,7 @@ export default function OfferProposalList({ offerId, reloadReq }: {
         user={proposal.user}
         createdAt={proposal.createdAt}
         statusLabel={index === 0
-          ? t("status.proposed") : t("status.adjustmentRequested")}
+          ? t("status.proposed") : t("status.proposedChanges")}
         offerProposal={proposal}
         defaultOpen={reloadReq?.refocusToLast && index === proposals.length - 1}
       />
@@ -107,13 +108,7 @@ function ProposalRow({ seq, createdAt, user, statusLabel, defaultOpen, offerProp
   const { tokenInfo } = useTokenInfo();
 
   const lastProposalRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (defaultOpen) {
-      lastProposalRef.current?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }
-  }, [defaultOpen]);
+  useScrollToTop(lastProposalRef, defaultOpen);
 
   const t = useTranslations("proposalList");
   const { switchButton, ListRowExpanded } = useListExpansionSwitch();

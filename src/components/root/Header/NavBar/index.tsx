@@ -1,9 +1,8 @@
 import { Row } from "@/components/ui/common";
 import NavigationLink from "./NavigationLink";
 import { UserTypeT } from "@/resources/users/dtos/user.dto";
-import { getTranslations } from "next-intl/server";
-import { AdminLevel } from "@/resources/tokens/token.types";
-import { getTokenInfo } from "@/resources/tokens/token.service";
+import { AdminLevel, TokenInfo } from "@/resources/tokens/token.types";
+import { useTranslations } from "next-intl";
 
 export type NavArrT = {
   name: string;
@@ -11,10 +10,10 @@ export type NavArrT = {
   isVisible: boolean;
 }[];
 
-export default async function NavBar() {
-  const t = await getTranslations("headerNav");
-  const tokenInfo = await getTokenInfo()
-    .catch(() => undefined);
+export default function NavBar({ tokenInfo }: {
+  tokenInfo?: TokenInfo;
+}) {
+  const t = useTranslations("headerNav");
   const userType = tokenInfo?.metadata.type;
   const adminLevel = tokenInfo?.metadata.adminLevel || AdminLevel.None;
 

@@ -79,7 +79,7 @@ export const ListRow = ({
         style={{
           width: `${widths[index]}%`
         }}
-        className="p-2 flex justify-center items-center"
+        className="p-2 flex justify-center items-center text-center"
       >
         {child}
       </div>

@@ -48,7 +48,7 @@ export default function OfferProposalDetails({ offerProposal, forInvoice }: {
               }
               return <TableRow key={index}>
                 <TableCell>
-                  {tCountries(code, { plural: "true" })}
+                  {tCountries(code, { plural: true })}
                 </TableCell>
                 <TableCell>
                   {tContractType(itemData.contract)}
@@ -73,7 +73,7 @@ export default function OfferProposalDetails({ offerProposal, forInvoice }: {
               {t("businessRightClassification")}
             </TableHead>
             <TableHead>
-              {t("countryOfDistribution")}
+              {t("serviceRegion")}
             </TableHead>
             <TableHead>
               {t("contractCondition")}
@@ -91,10 +91,10 @@ export default function OfferProposalDetails({ offerProposal, forInvoice }: {
                 const { country, message } = item;
                 return <TableRow key={`${index}__${country}`}>
                   <TableCell>
-                    {tBusinessFields(code, { plural: "true" })}
+                    {tBusinessFields(code, { plural: true })}
                   </TableCell>
                   <TableCell>
-                    {tCountries(country)}
+                    {tCountries(country, { plural: true })}
                   </TableCell>
                   <TableCell>
                     {message}

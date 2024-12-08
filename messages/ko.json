@@ -65,7 +65,6 @@
         "experienced": "경력"
     },
     "homeMain": {
-        "timeLeft": "<hl>{days}</hl>일 <hl>{hours}</hl>시간 <hl>{minutes}</hl>분",
         "numberOfOffers": "<hl>{count}</hl>명 오퍼중",
         "viewContent": "작품 보기",
         "recommendedPopularSeries": "인기 작품 추천",
@@ -121,6 +120,16 @@
         "agreedTerms": "합의 내용",
         "sender": "보낸 사람",
         "thereIsNoMessageWrittenByTheBuyer": "바이어가 작성한 메시지가 없습니다.",
+        "profile": {
+            "seller": "{name} (판매자)",
+            "buyer": "{name} (구매자)",
+            "phone": "연락처: {phone}",
+            "email": "이메일: {email}",
+            "affiliation": {
+                "yes": "에이전시 소속",
+                "no": "개인"
+            }
+        },
         "controls": {
             "decline": {
                 "actionButton": "거절하기",
@@ -362,7 +371,7 @@
         "status": {
             "label": "현황",
             "proposed": "제안",
-            "adjustmentRequested": "수정 요청",
+            "proposedChanges": "수정 요청",
             "invoiced": "인보이스 발급"
         }
     },
@@ -467,8 +476,7 @@
         "secondBusinessRight": "2차 사업권",
         "selectBusinessRightClassifications": "사업권 구분 선택",
         "contractCondition": "제안 조건",
-        "contractConditionDesc": "MG, 기간, RS, 원고료 등을 작성해 주세요.",
-        "countryOfDistribution": "유통 국가"
+        "contractConditionDesc": "MG, 기간, RS, 원고료 등을 작성해 주세요."
     },
     "errors": {
         "backToHome": "홈으로 돌아가기",

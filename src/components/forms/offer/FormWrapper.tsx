@@ -4,10 +4,11 @@ import { Heading1 } from "@/components/ui/common";
 import ContractRangeForm from "@/components/forms/ContractRangeForm";
 import { Textarea } from "@/shadcn/ui/textarea";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { clsx } from "clsx";
 import { OfferProposalFormSchema } from "@/resources/offers/dtos/offerProposal.dto";
 import SubmitButton from "@/components/ui/form/SubmitButton";
+import useScrollToTop from "@/hooks/scrollToTop";
 
 export default function FormWrapper({ title, ...safeActionFormReturn }: ReturnType<typeof useSafeActionForm> & {
   title: string;
@@ -20,13 +21,7 @@ export default function FormWrapper({ title, ...safeActionFormReturn }: ReturnTy
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   // Scroll to the Heading component when rendered
-  useEffect(() => {
-    headingRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    //   todo 재분석
-    });
-  }, [headingRef]);
+  useScrollToTop(headingRef);
 
   return (
     <Form {...form} schema={OfferProposalFormSchema}>
@@ -62,7 +57,7 @@ export default function FormWrapper({ title, ...safeActionFormReturn }: ReturnTy
           {tMakeAnOffer("note")}
         </p>
 
-        <SubmitButton control={form.control} isNew={false}/>
+        <SubmitButton control={form.control} isNew={true}/>
       </form>
     </Form>
   );
