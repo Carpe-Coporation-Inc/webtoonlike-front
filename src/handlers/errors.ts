@@ -4,7 +4,8 @@ export class ExpectedServerError extends Error {
   httpCode: number;
   title: string;
   logError: boolean = true;
-  constructor({ title, message, logError, httpCode }: {
+  constructor({ name, title, message, logError, httpCode }: {
+    name: string;
     httpCode: number;
     title: string;
     message: string;
@@ -12,7 +13,7 @@ export class ExpectedServerError extends Error {
   }) {
     super(message);
     this.httpCode = httpCode;
-    this.name = Object.getPrototypeOf(this).constructor.name;
+    this.name = name;
     this.title = title;
 
     /* 통상적인 사용 시 발생하기 어려운 경우 로그로 기록: 클라이언트 로직 오류를 살피기 위함*/
@@ -23,28 +24,29 @@ export class ExpectedServerError extends Error {
 // 400
 export class BadRequestError extends ExpectedServerError {
   constructor(params: { title: string; message: string; logError?: boolean }) {
-    super({ ...params, httpCode: 400 });
+    super({ ...params, name: "BadRequestError", httpCode: 400 });
   }
 }
 
 // 401
 export class NotAuthorizedError extends ExpectedServerError {
   constructor(params: { title: string; message: string; logError?: boolean }) {
-    super({ ...params, httpCode: 401 });
+    super({ ...params, name: "NotAuthorizedError", httpCode: 401 });
   }
 }
 // 403
 export class ForbiddenError extends ExpectedServerError {
   constructor(params?: {title: string; message: string; logError?: boolean }) {
+    const name = "ForbiddenError";
     const title = params?.title ?? "Forbidden";
     const message = params?.message ?? "You are not authorized to perform this action.";
-    super({ title, message, ...params, httpCode: 403 });
+    super({ name, title, message, ...params, httpCode: 403 });
   }
 }
 // 404
 export class NotFoundError extends ExpectedServerError {
   constructor(params: { title: string; message: string; logError?: boolean }) {
-    super({ ...params, httpCode: 404 });
+    super({ ...params, httpCode: 404, name: "NotFoundError" });
   }
 }
 
