@@ -85,7 +85,8 @@ function DownloadButton({ previewContent, offer }: {
   return <Button
     variant="mint"
     disabled={!previewContent}
-    onClick={async () => {
+    onClick={async (e) => {
+      e.preventDefault();
       if (!previewContent) {
         return;
       }

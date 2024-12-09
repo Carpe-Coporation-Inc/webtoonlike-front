@@ -2,23 +2,14 @@ import { Col } from "@/components/ui/common";
 import { ReactNode } from "react";
 import LightThemeProvider from "@/providers/LightThemeProvider";
 import AdminSidebar from "@/app/[locale]/admin/AdminSidebar";
-import { getTokenInfo } from "@/resources/tokens/token.service";
 import AdminPageContextProvider from "@/providers/AdminPageContextProvider";
-import { ActionErrorSchema } from "@/handlers/errors";
+import { assertAdmin } from "@/resources/tokens/token.controller";
+import { serverResponseHandler } from "@/handlers/serverResponseHandler";
 
 export default async function Admin({ children }: {
   children: ReactNode;
 }) {
-  await getTokenInfo({
-    admin: true,
-  }).catch((e) => {
-    const { data } = ActionErrorSchema.safeParse(e);
-    if (data) {
-      throw new Error(JSON.stringify(data));
-    } else {
-      throw e;
-    }
-  });
+  await assertAdmin().then(serverResponseHandler);
   return (
     <LightThemeProvider>
       <AdminPageContextProvider>

@@ -66,8 +66,10 @@ export const action = createSafeActionClient({
   logObject.metadata = metadata;
   logObject.result = result;
 
-  console.log("LOGGING FROM MIDDLEWARE: " + logObject.metadata.actionName);
-  console.dir(logObject, { departmenth: null });
+  if (process.env.STAGE === "dev") {
+    console.log("LOGGING FROM MIDDLEWARE: " + logObject.metadata.actionName);
+    console.dir(logObject, { departmenth: null });
+  }
 
   // And then return the result of the awaited next middleware.
   return result;
