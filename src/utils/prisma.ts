@@ -4,7 +4,6 @@ import { PrismaClient } from "@prisma/client";
 import ws from "ws";
 neonConfig.webSocketConstructor = ws;
 
-// todo 로깅 이슈
 // todo pool 개수 체크
 const pool = new Pool({
   connectionString: process.env.POSTGRES_PRISMA_URL
